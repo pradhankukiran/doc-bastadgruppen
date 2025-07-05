@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF.js Viewer</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/pdfjs-dist@3.11.174/web/pdf_viewer.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        overflow: hidden; /* Hide body scrollbar */
+      }
+      #toolbar {
+        display: none; /* Hide the toolbar */
+      }
+      #viewerContainer {
+        position: absolute;
+        top: 0; /* Start from the top since toolbar is hidden */
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow-y: auto; /* Allow vertical scrolling only */
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        /* Let the browser decide scrolling momentum; smooth + snap can feel janky */
+        scroll-behavior: auto;
+        /* Provide snap offset so pages align perfectly under the padding */
+        scroll-padding-top: 12px;
+        /* Eliminate layout-shift anchoring that can cause jumpiness when pages render */
+        overflow-anchor: none;
+        /* Limit gesture to vertical panning to avoid accidental side scrolls */
+        touch-action: pan-y;
+        padding-top: 12px; /* Space above first page */
+        padding-bottom: 12px; /* Space below last page */
+        overscroll-behavior: contain; /* Prevent scroll bounce that clips borders on touch devices */
+        scroll-snap-type: y mandatory; /* Snap scrolling to each page so they always settle with borders visible */
+      }
+      /* Hide scrollbars but keep scrolling functionality */
+      #viewerContainer::-webkit-scrollbar {
+        display: none;
+      }
+      .pdfViewer {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+        /* Child pages inherit snapping */
+      }
+      /* Make the PDF pages larger */
+      .pdfViewer .page {
+        margin: 10px auto;
+        border: 7px solid black;
+        box-shadow: none;
+        max-width: calc(100% - 20px); /* Ensure page fits within container width */
+        scroll-snap-align: start; /* Snap each page to the top */
+        scroll-snap-stop: always; /* Make sure scrolling always stops at a page edge */
+      }
+      /* First page top margin adjustment */
+      .pdfViewer .page:first-child {
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="toolbar">
+      <button id="prev">Prev</button>
+      <span id="pageInfo">1 / 1</span>
+      <button id="next">Next</button>
+      <span style="margin-left: auto"></span>
+      <button id="zoomOut">-</button>
+      <button id="zoomIn">+</button>
+      <button id="download">Download</button>
+    </div>
+
+    <div id="viewerContainer">
+      <div id="viewer" class="pdfViewer"></div>
+    </div>
+
+    <!-- Load PDF.js core library first -->
+    <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+    <!-- Then load the viewer components -->
+    <script src="https://unpkg.com/pdfjs-dist@3.11.174/web/pdf_viewer.js"></script>
+    
+    <script>
+      // Configure the PDF.js worker
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+
+      // Wait for scripts to load completely
+      window.onload = function() {
+        let pdfFile = null;
+        let currentPdfDoc = null; // To hold the active PDF document object
+
+        const eventBus = new pdfjsViewer.EventBus();
+        const linkService = new pdfjsViewer.PDFLinkService({ eventBus });
+        const pdfViewer = new pdfjsViewer.PDFViewer({
+          container: document.getElementById("viewerContainer"),
+          eventBus,
+          linkService,
+        });
+        linkService.setViewer(pdfViewer);
+
+        const viewerContainer = document.getElementById("viewerContainer");
+
+        eventBus.on("pagesinit", () => {
+          // Use a scale that fits the width of the container
+          pdfViewer.currentScaleValue = "page-width";
+          
+          // Ensure we're at the top of the document
+          viewerContainer.scrollTop = 0;
+        });
+
+        function loadPdf(file) {
+          if (!file) return;
+          pdfFile = file;
+
+          // **FIX:** Properly destroy the previous document before loading a new one.
+          if (currentPdfDoc) {
+            currentPdfDoc.destroy();
+            currentPdfDoc = null;
+          }
+
+          pdfViewer.setDocument(null);
+          linkService.setDocument(null, null);
+
+          pdfjsLib
+            .getDocument(file)
+            .promise.then((pdfDoc) => {
+              currentPdfDoc = pdfDoc; // Store the new document object
+              pdfViewer.setDocument(pdfDoc);
+              linkService.setDocument(pdfDoc, null);
+              updatePageInfo();
+              
+              setTimeout(() => viewerContainer.scrollTop = 0, 100);
+
+              pdfViewer.firstPagePromise.then(() => {
+                window.parent.postMessage('pdf-rendered', '*');
+              });
+            })
+            .catch(console.error);
+        }
+
+        // Listen for messages from the parent window
+        window.addEventListener("message", (event) => {
+          // Add a simple origin check for security if needed in the future
+          // if (event.origin !== 'http://your-app-origin.com') return;
+          if (typeof event.data === 'string' && event.data.startsWith('data:application/pdf')) {
+            loadPdf(event.data);
+          }
+        });
+
+        function updatePageInfo() {
+          const pageInfo = document.getElementById("pageInfo");
+          pageInfo.textContent = `${pdfViewer.currentPageNumber} / ${
+            pdfViewer.pagesCount || 1
+          }`;
+        }
+
+        document.getElementById("prev").addEventListener("click", () => {
+          if (pdfViewer.currentPageNumber <= 1) return;
+          pdfViewer.currentPageNumber -= 1;
+          updatePageInfo();
+        });
+
+        document.getElementById("next").addEventListener("click", () => {
+          if (pdfViewer.currentPageNumber >= pdfViewer.pagesCount) return;
+          pdfViewer.currentPageNumber += 1;
+          updatePageInfo();
+        });
+
+        document.getElementById("zoomIn").addEventListener("click", () => {
+          pdfViewer.currentScale *= 1.25;
+        });
+
+        document.getElementById("zoomOut").addEventListener("click", () => {
+          pdfViewer.currentScale /= 1.25;
+        });
+
+        document.getElementById("download").addEventListener("click", () => {
+          if (!pdfFile) return;
+          const a = document.createElement("a");
+          a.href = pdfFile;
+          a.download = "document.pdf";
+          a.click();
+        });
+
+        eventBus.on("pagechanging", updatePageInfo);
+        
+        // Open the PDF in a new tab when the viewer is clicked
+        viewerContainer.addEventListener('click', () => {
+          if (!pdfFile) return;
+
+          let urlToOpen = pdfFile;
+
+          // Browsers block top-level navigation to data: URLs. Convert to a Blob URL instead.
+          if (urlToOpen.startsWith('data:application/pdf')) {
+            try {
+              const base64 = urlToOpen.split(',')[1];
+              const binary = atob(base64);
+              const len = binary.length;
+              const bytes = new Uint8Array(len);
+              for (let i = 0; i < len; i++) {
+                bytes[i] = binary.charCodeAt(i);
+              }
+              const blob = new Blob([bytes], { type: 'application/pdf' });
+              urlToOpen = URL.createObjectURL(blob);
+            } catch (err) {
+              console.error('Failed to convert data URL to Blob:', err);
+            }
+          }
+
+          window.open(urlToOpen, '_blank');
+        });
+
+        // Add keyboard navigation
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight' || e.key === ' ') {
+            if (pdfViewer.currentPageNumber < pdfViewer.pagesCount) {
+              pdfViewer.currentPageNumber += 1;
+              updatePageInfo();
+            }
+          } else if (e.key === 'ArrowLeft') {
+            if (pdfViewer.currentPageNumber > 1) {
+              pdfViewer.currentPageNumber -= 1;
+              updatePageInfo();
+            }
+          }
+        });
+
+        // Inform the parent window that the viewer is ready
+        window.parent.postMessage("pdf-viewer-ready", "*");
+      };
+    </script>
+  </body>
+</html> 
