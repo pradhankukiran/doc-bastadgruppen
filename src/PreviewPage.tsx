@@ -6,6 +6,32 @@ import { pdf } from "@react-pdf/renderer";
 import DocPdfTemplate from "./components/DocPdfTemplate";
 import { DeclarationFormData } from "./types";
 
+// Map display language names to ISO codes used in translations.ts
+const LANG_NAME_TO_CODE: Record<string, string> = {
+  English: "en",
+  Swedish: "sv",
+  Norwegian: "no",
+  Danish: "da",
+  Finnish: "fi",
+  Polish: "pl",
+  Estonian: "et",
+  German: "de",
+  French: "fr",
+  Italian: "it",
+  Dutch: "nl",
+  Portuguese: "pt",
+  Latvian: "lv",
+  Icelandic: "is",
+  Spanish: "es",
+  Slovak: "sk",
+  Slovenian: "sl",
+  Czech: "cs",
+  Hungarian: "hu",
+  Lithuanian: "lt",
+  Greek: "el",
+  Croatian: "hr",
+};
+
 const TRANSITION_DURATION_MS = 150;
 
 function PreviewPage() {
@@ -64,18 +90,19 @@ function PreviewPage() {
 
       // Generate PDFs sequentially
       for (let i = 0; i < formData.selectedLanguages.length; i++) {
-        const lang = formData.selectedLanguages[i];
+        const langName = formData.selectedLanguages[i];
+        const langCode = LANG_NAME_TO_CODE[langName] || "en";
 
         // Update state to generating
         setLanguageStates((prev) =>
           prev.map((item) =>
-            item.lang === lang ? { ...item, state: "generating" } : item
+            item.lang === langName ? { ...item, state: "generating" } : item
           )
         );
 
         try {
           const blob = await pdf(
-            <DocPdfTemplate formData={formData} language={lang} />
+            <DocPdfTemplate formData={formData} language={langCode} />
           ).toBlob();
           const blobUrl = URL.createObjectURL(blob);
           revoked.push(blobUrl);
@@ -87,12 +114,12 @@ function PreviewPage() {
             reader.readAsDataURL(blob);
           });
 
-          const pdfData: PdfData = { lang, dataUrl, blobUrl };
+          const pdfData: PdfData = { lang: langCode, dataUrl, blobUrl };
 
           // Update state to completed
           setLanguageStates((prev) =>
             prev.map((item) =>
-              item.lang === lang
+              item.lang === langName
                 ? { ...item, state: "completed", pdfData }
                 : item
             )
@@ -103,7 +130,7 @@ function PreviewPage() {
             setSelectedPdfDataUrl(dataUrl);
           }
         } catch (error) {
-          console.error(`Error generating PDF for ${lang}:`, error);
+          console.error(`Error generating PDF for ${langName}:`, error);
           // Keep as generating state or could add error state
         }
       }

@@ -1,5 +1,6 @@
 import React from "react";
 import { Document, Page, Text, View, Font, Image } from "@react-pdf/renderer";
+import { t } from "../i18n";
 import { DeclarationFormData } from "../types";
 import LatoRegular from "/fonts/Lato-Regular.ttf";
 import LatoBold from "/fonts/Lato-Bold.ttf";
@@ -114,7 +115,7 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
                 marginBottom: 7,
               }}
             >
-              EU Declaration of Conformity
+              {t(language, "title.declaration")}
             </Text>
             {finalProductInfo.categoryClass && (
               <Text
@@ -147,8 +148,7 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
               marginBottom: 20,
             }}
           >
-            This declaration of conformity is issued under the sole
-            responsibility of the manufacturer:
+            {t(language, "responsibility.statement")}
           </Text>
           <Text style={{ fontSize: 12 }}>Båstadgruppen AB</Text>
           <Text style={{ fontSize: 12 }}>Fraktgatan 1</Text>
@@ -160,8 +160,7 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
           <Text
             style={{ fontSize: 12, textAlign: "center", paddingHorizontal: 70 }}
           >
-            The manufacturer hereby declares that the below-described Personal
-            Protective Equipment (PPE):
+            {t(language, "declares.ppe")}
           </Text>
         </View>
 
@@ -182,7 +181,9 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
             {finalProductInfo.name}
           </Text>
           <Text style={{ fontSize: 13 }}>
-            with item number {finalProductInfo.productNumber}
+            {t(language, "product.itemNumber", {
+              productNumber: finalProductInfo.productNumber,
+            })}
           </Text>
         </View>
 
@@ -195,11 +196,9 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
               textAlign: "justify",
             }}
           >
-            is in conformity with the relevant Union harmonisation legislation:{" "}
-            {complianceInfo.euLegislation.join(", ")} and fulfills the
-            applicable essential health and safety requirements set out in Annex
-            II and the relevant harmonized standards or other technical
-            specifications, No. :
+            {t(language, "conformity.statement", {
+              euLegislation: complianceInfo.euLegislation.join(", "),
+            })}
           </Text>
           {complianceInfo.harmonisedStandards.map((std, idx) => (
             <Text
@@ -228,7 +227,11 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
                     marginBottom: 10,
                   }}
                 >
-                  {`The notified body "${selectedBodyDetails.name} (No ${selectedBodyDetails.number})" performed the EU type-examination (Module B) and issued the EU type-examination certificate "${finalProductInfo.certificateNo}". The PPE is subject to the conformity assessment procedure based on internal production control plus supervised product checks at random intervals (Module C2) under surveillance of the notified body "${selectedBodyDetails.name} (No ${selectedBodyDetails.number})".`}
+                  {t(language, "notified.moduleC2", {
+                    bodyName: selectedBodyDetails.name,
+                    bodyNumber: selectedBodyDetails.number,
+                    certificateNo: finalProductInfo.certificateNo,
+                  })}
                 </Text>
               ) : finalProductInfo.categoryClass === "Class III" &&
                 finalProductInfo.moduleType === "Module D" ? (
@@ -239,7 +242,11 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
                     marginBottom: 10,
                   }}
                 >
-                  {`The notified body "${selectedBodyDetails.name} (No ${selectedBodyDetails.number})" performed the EU type-examination (Module B) and issued the EU type-examination certificate "${finalProductInfo.certificateNo}". The PPE is subject to the conformity assessment procedure based on quality assurance of the production process (Module D) under surveillance of the notified body "${selectedBodyDetails.name} (No ${selectedBodyDetails.number})".`}
+                  {t(language, "notified.moduleD", {
+                    bodyName: selectedBodyDetails.name,
+                    bodyNumber: selectedBodyDetails.number,
+                    certificateNo: finalProductInfo.certificateNo,
+                  })}
                 </Text>
               ) : (
                 <Text
@@ -249,7 +256,12 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
                     marginBottom: 10,
                   }}
                 >
-                  {`The notified body "${selectedBodyDetails.name} (No ${selectedBodyDetails.number})" performed the EU type-examination (${finalProductInfo.moduleType}) and issued the EU type-examination certificate "${finalProductInfo.certificateNo}".`}
+                  {t(language, "notified.other", {
+                    bodyName: selectedBodyDetails.name,
+                    bodyNumber: selectedBodyDetails.number,
+                    certificateNo: finalProductInfo.certificateNo,
+                    moduleType: finalProductInfo.moduleType,
+                  })}
                 </Text>
               )}
             </View>
@@ -294,7 +306,9 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
                   style={{ width: 120, marginBottom: 3 }}
                   fixed
                 />
-                <Text style={{ fontSize: 11 }}>Product Safety Manager</Text>
+                <Text style={{ fontSize: 11 }}>
+                  {t(language, "product.safety.manager")}
+                </Text>
                 {signerName && (
                   <Text style={{ fontSize: 11 }}>{signerName}</Text>
                 )}
