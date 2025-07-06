@@ -25,18 +25,11 @@
         right: 0;
         overflow-y: auto; /* Allow vertical scrolling only */
         overflow-x: hidden; /* Prevent horizontal scrolling */
-        /* Let the browser decide scrolling momentum; smooth + snap can feel janky */
-        scroll-behavior: auto;
-        /* Provide snap offset so pages align perfectly under the padding */
-        scroll-padding-top: 12px;
-        /* Eliminate layout-shift anchoring that can cause jumpiness when pages render */
-        overflow-anchor: none;
-        /* Limit gesture to vertical panning to avoid accidental side scrolls */
-        touch-action: pan-y;
-        padding-top: 12px; /* Space above first page */
-        padding-bottom: 12px; /* Space below last page */
-        overscroll-behavior: contain; /* Prevent scroll bounce that clips borders on touch devices */
-        scroll-snap-type: y mandatory; /* Snap scrolling to each page so they always settle with borders visible */
+        scroll-behavior: smooth; /* Smooth scrolling for single page */
+        padding-top: 20px; /* Space above single page */
+        padding-bottom: 20px; /* Space below single page */
+        overscroll-behavior: contain; /* Prevent scroll bounce */
+        touch-action: pan-y; /* Limit gesture to vertical panning */
       }
       /* Hide scrollbars but keep scrolling functionality */
       #viewerContainer::-webkit-scrollbar {
@@ -47,18 +40,12 @@
         scrollbar-width: none;  /* Firefox */
         /* Child pages inherit snapping */
       }
-      /* Make the PDF pages larger */
+      /* Single PDF page styling - simple scrolling */
       .pdfViewer .page {
-        margin: 10px auto;
+        margin: 0 auto; /* Center the single page */
         border: 7px solid black;
         box-shadow: none;
-        max-width: calc(100% - 20px); /* Ensure page fits within container width */
-        scroll-snap-align: start; /* Snap each page to the top */
-        scroll-snap-stop: always; /* Make sure scrolling always stops at a page edge */
-      }
-      /* First page top margin adjustment */
-      .pdfViewer .page:first-child {
-        margin-top: 0;
+        max-width: calc(100% - 40px); /* Ensure page fits within container width with padding */
       }
     </style>
   </head>

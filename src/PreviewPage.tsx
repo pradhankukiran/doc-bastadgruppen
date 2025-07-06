@@ -30,7 +30,15 @@ function PreviewPage() {
     blobUrl: string;
   }
 
-  const [pdfUrls, setPdfUrls] = useState<PdfData[]>([]);
+  type GenerationState = "pending" | "generating" | "completed";
+
+  interface LanguageState {
+    lang: string;
+    state: GenerationState;
+    pdfData?: PdfData;
+  }
+
+  const [languageStates, setLanguageStates] = useState<LanguageState[]>([]);
   const [selectedPdfDataUrl, setSelectedPdfDataUrl] = useState<string | null>(
     null
   );
@@ -45,27 +53,59 @@ function PreviewPage() {
     async function generate() {
       if (!formData) return;
 
-      const promises = formData.selectedLanguages.map(async (lang) => {
-        const blob = await pdf(
-          <DocPdfTemplate formData={formData} language={lang} />
-        ).toBlob();
-        const blobUrl = URL.createObjectURL(blob);
-        revoked.push(blobUrl);
+      // Initialize all languages as pending
+      const initialStates: LanguageState[] = formData.selectedLanguages.map(
+        (lang) => ({
+          lang,
+          state: "pending" as GenerationState,
+        })
+      );
+      setLanguageStates(initialStates);
 
-        const dataUrl = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(blob);
-        });
+      // Generate PDFs sequentially
+      for (let i = 0; i < formData.selectedLanguages.length; i++) {
+        const lang = formData.selectedLanguages[i];
 
-        return { lang, dataUrl, blobUrl };
-      });
+        // Update state to generating
+        setLanguageStates((prev) =>
+          prev.map((item) =>
+            item.lang === lang ? { ...item, state: "generating" } : item
+          )
+        );
 
-      const results = await Promise.all(promises);
-      setPdfUrls(results);
-      if (results.length > 0) {
-        setSelectedPdfDataUrl(results[0].dataUrl);
+        try {
+          const blob = await pdf(
+            <DocPdfTemplate formData={formData} language={lang} />
+          ).toBlob();
+          const blobUrl = URL.createObjectURL(blob);
+          revoked.push(blobUrl);
+
+          const dataUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          });
+
+          const pdfData: PdfData = { lang, dataUrl, blobUrl };
+
+          // Update state to completed
+          setLanguageStates((prev) =>
+            prev.map((item) =>
+              item.lang === lang
+                ? { ...item, state: "completed", pdfData }
+                : item
+            )
+          );
+
+          // Set first completed PDF as selected
+          if (i === 0) {
+            setSelectedPdfDataUrl(dataUrl);
+          }
+        } catch (error) {
+          console.error(`Error generating PDF for ${lang}:`, error);
+          // Keep as generating state or could add error state
+        }
       }
     }
     generate();
@@ -116,13 +156,18 @@ function PreviewPage() {
 
   // Helper to download all PDFs
   const downloadAll = async () => {
-    pdfUrls.forEach(({ blobUrl, lang }) => {
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = `DoC_${formData.productInfo.name}_${lang}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    const completedPdfs = languageStates.filter(
+      (state) => state.state === "completed" && state.pdfData
+    );
+    completedPdfs.forEach(({ pdfData }) => {
+      if (pdfData) {
+        const link = document.createElement("a");
+        link.href = pdfData.blobUrl;
+        link.download = `DoC_${formData.productInfo.name}_${pdfData.lang}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     });
   };
 
@@ -166,7 +211,7 @@ function PreviewPage() {
       <main className="flex-1 relative flex justify-center items-center overflow-hidden px-4 pt-4">
         {/* PDF preview */}
         <div className="h-full w-full max-w-[800px]">
-          {pdfUrls.length > 0 ? (
+          {selectedPdfDataUrl ? (
             <iframe
               key={iframeKey} // Add key to force complete remount
               ref={iframeRef}
@@ -178,30 +223,45 @@ function PreviewPage() {
               style={{ transition: `opacity ${TRANSITION_DURATION_MS}ms` }}
             />
           ) : (
-            <div className="flex items-center justify-center h-full text-brand-muted">
-              Generating PDF...
-            </div>
+            <div className="flex items-center justify-center h-full text-brand-muted"></div>
           )}
         </div>
 
         {/* Language selection sidebar */}
-        {pdfUrls.length > 1 && (
+        {languageStates.length > 1 && (
           <aside className="absolute top-4 right-4 bottom-4 w-40 p-4 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="space-y-2">
-              {pdfUrls.map((pdf) => (
-                <button
-                  key={pdf.lang}
-                  type="button"
-                  onClick={() => handleLanguageSelect(pdf.dataUrl)}
-                  className={`w-full text-left p-2 rounded-md text-sm transition-all duration-200 ${
-                    selectedPdfDataUrl === pdf.dataUrl && !isTransitioning
-                      ? "bg-brand-primary text-white shadow-md"
-                      : "bg-white hover:bg-gray-100 hover:text-brand-primary"
-                  }`}
-                >
-                  {`${pdf.lang.toUpperCase()}`}
-                </button>
-              ))}
+              {languageStates.map((langState) => {
+                const isCompleted = langState.state === "completed";
+                const isSelected =
+                  langState.pdfData?.dataUrl === selectedPdfDataUrl;
+                const isGenerating = langState.state === "generating";
+
+                return (
+                  <button
+                    key={langState.lang}
+                    type="button"
+                    onClick={() =>
+                      isCompleted && langState.pdfData
+                        ? handleLanguageSelect(langState.pdfData.dataUrl)
+                        : undefined
+                    }
+                    disabled={!isCompleted}
+                    className={`w-full text-left p-2 rounded-md text-sm transition-all duration-200 ${
+                      isSelected && !isTransitioning
+                        ? "bg-brand-primary text-white shadow-md"
+                        : isCompleted
+                        ? "bg-white hover:bg-gray-100 hover:text-brand-primary cursor-pointer"
+                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    }`}
+                  >
+                    {`${langState.lang.toUpperCase()}`}
+                    {isGenerating && (
+                      <span className="ml-2 text-xs"></span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </aside>
         )}

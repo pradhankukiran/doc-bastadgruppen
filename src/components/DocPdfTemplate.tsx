@@ -1,5 +1,5 @@
 import React from "react";
-import { Document, Page, Text, View, Font } from "@react-pdf/renderer";
+import { Document, Page, Text, View, Font, Image } from "@react-pdf/renderer";
 import { DeclarationFormData } from "../types";
 import LatoRegular from "/fonts/Lato-Regular.ttf";
 import LatoBold from "/fonts/Lato-Bold.ttf";
@@ -21,6 +21,47 @@ type Props = {
 const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
   const { productInfo, selectedBodyDetails, complianceInfo } = formData;
 
+  // Map brand names (as stored in form data) to image paths in the public folder
+  const brandLogoMap: Record<string, string> = {
+    Guardio: "/Guardio.jpg",
+    Matterhorn: "/Matterhorn.jpg",
+    Monitor: "/Monitor.jpg",
+    "Top Swede": "/Top_Swede.jpg",
+    "South West": "/South_West.jpg",
+  };
+
+  const brandLogoSrc = brandLogoMap[formData.selectedBrands] || null;
+
+  // Map brand names to signature image paths
+  const signatureMap: Record<string, string> = {
+    Guardio: "/Nawar.jpg",
+    Monitor: "/Ove.jpg",
+    Matterhorn: "/Catrin.jpg",
+    "Top Swede": "/Kristin.jpg",
+    "South West": "/Helena.jpg",
+  };
+
+  const signatureSrc = signatureMap[formData.selectedBrands] || null;
+
+  const nameMap: Record<string, string> = {
+    Guardio: "Nawar Toma",
+    Monitor: "Ove Nilsson",
+    Matterhorn: "Catrin Ogenvall",
+    "Top Swede": "Kristin Hallbäck",
+    "South West": "Helena Rydberg",
+  };
+
+  const signerName = nameMap[formData.selectedBrands] || "";
+
+  // Format current date as "dd mm yyyy"
+  const formattedDate = new Date()
+    .toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })
+    ;
+
   const finalProductInfo = {
     ...productInfo,
     moduleType:
@@ -35,7 +76,7 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
         size="A4"
         style={{
           fontSize: 12,
-          paddingTop: 120,
+          paddingTop: 100,
           paddingBottom: 10,
           paddingHorizontal: 60,
           fontFamily: "Lato",
@@ -43,6 +84,11 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
         }}
         wrap
       >
+        <Image
+          src="/Bastadgruppen_Logotyp_Svart_RGB.jpg"
+          style={{ width: 130, position: "absolute", top: 40, right: 60 }}
+          fixed
+        />
         {/* Title & Category */}
         <View
           style={{
@@ -110,7 +156,7 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
           <Text style={{ fontSize: 12 }}>Sweden</Text>
         </View>
         {/* Declaration statement */}
-        <View style={{ marginBottom: 12 }}>
+        <View style={{ marginBottom: 10 }}>
           <Text
             style={{ fontSize: 12, textAlign: "center", paddingHorizontal: 70 }}
           >
@@ -118,6 +164,17 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
             Protective Equipment (PPE):
           </Text>
         </View>
+
+        {/* Selected brand logo */}
+        {brandLogoSrc && (
+          <View style={{ marginBottom: 10, textAlign: "center" }}>
+            <Image
+              src={brandLogoSrc}
+              style={{ width: 100, alignSelf: "center" }}
+              fixed
+            />
+          </View>
+        )}
 
         {/* Product information */}
         <View style={{ marginBottom: 12, textAlign: "center" }}>
@@ -130,10 +187,10 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
         </View>
 
         {/* Legislation and Standards */}
-        <View style={{ marginBottom: 15 }}>
+        <View style={{ marginBottom: 5 }}>
           <Text
             style={{
-              fontSize: 12,
+              fontSize: 11,
               marginBottom: 10,
               textAlign: "justify",
             }}
@@ -148,7 +205,7 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
             <Text
               key={idx}
               style={{
-                fontSize: 12,
+                fontSize: 11,
                 marginLeft: 12,
                 marginBottom: 10,
               }}
@@ -161,12 +218,12 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
         {/* Notified statement */}
         {selectedBodyDetails &&
           finalProductInfo.categoryClass !== "Class I" && (
-            <View style={{ marginBottom: 15 }}>
+            <View style={{ marginBottom: 10 }}>
               {finalProductInfo.categoryClass === "Class III" &&
               finalProductInfo.moduleType === "Module C2" ? (
                 <Text
                   style={{
-                    fontSize: 12,
+                    fontSize: 11,
                     textAlign: "justify",
                     marginBottom: 10,
                   }}
@@ -177,7 +234,7 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
                 finalProductInfo.moduleType === "Module D" ? (
                 <Text
                   style={{
-                    fontSize: 12,
+                    fontSize: 11,
                     textAlign: "justify",
                     marginBottom: 10,
                   }}
@@ -187,7 +244,7 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
               ) : (
                 <Text
                   style={{
-                    fontSize: 12,
+                    fontSize: 11,
                     textAlign: "justify",
                     marginBottom: 10,
                   }}
@@ -197,30 +254,62 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
               )}
             </View>
           )}
-        {/* Notified Address */}
-        {selectedBodyDetails && (
-          <View>
-            <Text style={{ fontSize: 11, marginBottom: 5 }}>
-              {selectedBodyDetails.name}
-            </Text>
-            <Text style={{ fontSize: 11, marginBottom: 5 }}>
-              Notified Body No. {selectedBodyDetails.number}
-            </Text>
-            <Text style={{ fontSize: 11, marginBottom: 5 }}>
-              {selectedBodyDetails.address}
-            </Text>
-            <Text style={{ fontSize: 11, marginBottom: 5 }}>
-              {selectedBodyDetails.zipCode}, {selectedBodyDetails.country}
-            </Text>
+        {/* Notified Address & Signature Section */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: 20,
+          }}
+        >
+          {/* Left column – Notified Address */}
+          {selectedBodyDetails && (
+            <View style={{ flex: 1, marginRight: 20 }}>
+              <Text style={{ fontSize: 11, marginBottom: 3 }}>
+                {selectedBodyDetails.name}
+              </Text>
+              <Text style={{ fontSize: 11, marginBottom: 3 }}>
+                Notified Body No. {selectedBodyDetails.number}
+              </Text>
+              <Text style={{ fontSize: 11, marginBottom: 3 }}>
+                {selectedBodyDetails.address}
+              </Text>
+              <Text style={{ fontSize: 11, marginBottom: 3 }}>
+                {selectedBodyDetails.zipCode}, {selectedBodyDetails.country}
+              </Text>
+            </View>
+          )}
+
+          {/* Right column – Signature Section */}
+          <View
+            style={{
+              flex: 1,
+              alignItems: "flex-end",
+            }}
+          >
+            {signatureSrc && (
+              <>
+                <Image
+                  src={signatureSrc}
+                  style={{ width: 120, marginBottom: 3 }}
+                  fixed
+                />
+                <Text style={{ fontSize: 11 }}>Product Safety Manager</Text>
+                {signerName && (
+                  <Text style={{ fontSize: 11 }}>{signerName}</Text>
+                )}
+                <Text style={{ fontSize: 11 }}>{formattedDate}</Text>
+              </>
+            )}
           </View>
-        )}
+        </View>
 
         <View
           style={{
             position: "absolute",
             flexDirection: "row",
             justifyContent: "space-between",
-            bottom: 30,
+            bottom: 10,
             left: 40,
             right: 40,
             fontSize: 10,
@@ -230,7 +319,7 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
         >
           <Text>www.bastadgruppen.com</Text>
           <Text>Båstadgruppen AB</Text>
-          <Text>+46 410 70 00 00</Text>
+          <Text>0046123413445</Text>
         </View>
       </Page>
     </Document>
