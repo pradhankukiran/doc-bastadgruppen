@@ -23,7 +23,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Tillverkaren försäkrar härmed att den nedan beskrivna personliga skyddsutrustningen (PSA):",
     "conformity.statement":
-      "överensstämmer med tillämplig unionsharmoniserad lagstiftning: {{euLegislation}} och uppfyller de väsentliga hälso- och säkerhetskrav som anges i bilaga II samt relevanta harmoniserade standarder eller andra tekniska specifikationer, nr:",
+      "överensstämmer med tillämplig unionsharmoniserad lagstiftning: {{euLegislation}} och uppfyller de väsentliga hälso- och säkerhetskrav som anges i bilaga II samt relevanta harmoniserade standarder eller andra tekniska specifikationer, nr :",
     "notified.moduleC2":
       'Det anmälda organet "{{bodyName}} (nr {{bodyNumber}})" har utfört EU-typkontroll (Module B) och utfärdat EU-typkontrollintyg "{{certificateNo}}". PPE är föremål för bedömning av överensstämmelse baserad på intern produktionskontroll med övervakade stickprovskontroller (Module C2) under tillsyn av det anmälda organet "{{bodyName}} (nr {{bodyNumber}})".',
     "notified.moduleD":
@@ -40,7 +40,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Produsenten erklærer herved at det nedenfor beskrevne personlige verneutstyret (PVU):",
     "conformity.statement":
-      "er i samsvar med gjeldende unionsharmoniseringslovgivning: {{euLegislation}} og oppfyller de relevante grunnleggende helse- og sikkerhetskravene i vedlegg II samt de relevante harmoniserede standarder eller andre tekniske spesifikasjoner, nr:",
+      "er i samsvar med gjeldende unionsharmoniseringslovgivning: {{euLegislation}} og oppfyller de relevante grunnleggende helse- og sikkerhetskravene i vedlegg II samt de relevante harmoniserte standarder eller andre tekniske spesifikasjoner, nr. :",
     "notified.moduleC2":
       "Det meldte organet \"{{bodyName}} (nr. {{bodyNumber}})\" har utført EU-typeprøving (Module B) og utstedt EU-typeprøvingssertifikat \"{{certificateNo}}\". PVU-en er gjenstand for samsvarsvurderingsprosedyre basert på intern produksjonskontroll med overvåkede stikkprøvekontroller (Module C2) under tilsyn av det meldte organet \"{{bodyName}} (nr. {{bodyNumber}})\".",
     "notified.moduleD":
@@ -57,7 +57,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Fabrikanten erklærer hermed, at det nedenfor beskrevne personlige værneudstyr (PPE):",
     "conformity.statement":
-      "er i overensstemmelse med den relevante EU-harmoniseringslovgivning: {{euLegislation}} og opfylder de gældende væsentlige sundheds- og sikkerhedskrav i bilag II samt de relevante harmoniserede standarder eller andre tekniske specifikationer, nr:",
+      "er i overensstemmelse med den relevante EU-harmoniseringslovgivning: {{euLegislation}} og opfylder de gældende væsentlige sundheds- og sikkerhedskrav i bilag II samt de relevante harmoniserede standarder eller andre tekniske specifikationer, nr :",
     "notified.moduleC2":
       "Det bemyndigede organ \"{{bodyName}} (nr. {{bodyNumber}})\" har udført EU-typeafprøvning (Module B) og udstedt EU-typeafprøvningscertifikat \"{{certificateNo}}\". PPE'en er underlagt vurderingsproceduren for overensstemmelse baseret på intern produktionskontrol med overvågede stikprøvekontroller (Module C2) under tilsyn af det bemyndigede organ \"{{bodyName}} (nr. {{bodyNumber}})\".",
     "notified.moduleD":
@@ -74,7 +74,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Valmistaja vakuuttaa täten, että alla kuvattu henkilönsuojain (PPE):",
     "conformity.statement":
-      "on yhdenmukainen asiaankuuluvan unionin yhdenmukaistuslainsäädännön kanssa: {{euLegislation}} ja täyttää liitteessä II asetetut olennaiset terveys- ja turvallisuusvaatimukset sekä asiaankuuluvat yhdenmukaistetut standardit tai muut tekniset eritelmät, nro:",
+      "on yhdenmukainen asiaankuuluvan unionin yhdenmukaistuslainsäädännön kanssa: {{euLegislation}} ja täyttää liitteessä II asetetut olennaiset terveys- ja turvallisuusvaatimukset sekä asiaankuuluvat yhdenmukaistetut standardit tai muut tekniset eritelmät, nro :",
     "notified.moduleC2":
       "Ilmoitettu laitos \"{{bodyName}} (Nro {{bodyNumber}})\" on suorittanut EU-tyyppitarkastuksen (Module B) ja myöntänyt EU-tyyppitarkastustodistuksen \"{{certificateNo}}\". PPE on vaatimustenmukaisuuden arviointimenettelyn alainen, joka perustuu sisäiseen tuotannonvalvontaan ja valvottuihin satunnaistarkastuksiin (Module C2) ilmoitetun laitoksen \"{{bodyName}} (Nro {{bodyNumber}})\" valvonnassa.",
     "notified.moduleD":
@@ -82,7 +82,7 @@ export const translations: Record<string, Record<string, string>> = {
     "notified.other":
       "Ilmoitettu laitos \"{{bodyName}} (Nro {{bodyNumber}})\" on suorittanut EU-tyyppitarkastuksen ({{moduleType}}) ja myöntänyt EU-tyyppitarkastustodistuksen \"{{certificateNo}}\".",
     "product.safety.manager": "Tuoteturvallisuuspäällikkö",
-    "product.itemNumber": "tuotenumero {{productNumber}}",
+    "product.itemNumber": "tuotenumerolla {{productNumber}}",
   },
   pl: {
     "title.declaration": "Deklaracja zgodności UE",
@@ -91,7 +91,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Producent niniejszym oświadcza, że niżej opisywane środki ochrony indywidualnej (ŚOI):",
     "conformity.statement":
-      "jest zgodny z odpowiednimi przepisami harmonizacyjnymi Unii: {{euLegislation}} oraz spełnia mające zastosowanie zasadnicze wymagania dotyczące zdrowia i bezpieczeństwa określone w załączniku II oraz odpowiednie zharmonizowane normy lub inne specyfikacje techniczne, nr:",
+      "jest zgodny z odpowiednimi przepisami harmonizacyjnymi Unii: {{euLegislation}} oraz spełnia mające zastosowanie zasadnicze wymagania dotyczące zdrowia i bezpieczeństwa określone w załączniku II oraz odpowiednie zharmonizowane normy lub inne specyfikacje techniczne, nr :",
     "notified.moduleC2":
       "Jednostka notyfikowana \"{{bodyName}} (nr {{bodyNumber}})\" przeprowadziła badanie typu UE (Module B) i wydała certyfikat badania typu UE \"{{certificateNo}}\". ŚOI podlega procedurze oceny zgodności na podstawie wewnętrznej kontroli produkcji wraz z nadzorowanymi kontrolami produktu w losowych odstępach czasu (Module C2) pod nadzorem jednostki notyfikowanej \"{{bodyName}} (nr {{bodyNumber}})\".",
     "notified.moduleD":
@@ -108,7 +108,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Tootja kinnitab käesolevaga, et allpool kirjeldatud isikukaitsevahend (IKV):",
     "conformity.statement":
-      "vastab asjakohasele liidu ühtlustusõigusaktile: {{euLegislation}} ning täidab liite II olulised tervise- ja ohutusnõuded ning asjakohased harmoneeritud standardid või muud tehnilised spetsifikatsioonid, nr:",
+      "vastab asjakohasele liidu ühtlustusõigusaktile: {{euLegislation}} ning täidab liite II olulised tervise- ja ohutusnõuded ning asjakohased harmoneeritud standardid või muud tehnilised spetsifikatsioonid, nr :",
     "notified.moduleC2":
       "Teavitatud asutus \"{{bodyName}} (nr {{bodyNumber}})\" viis läbi EL-i tüübikatse (Module B) ja väljastas EL-i tüübikatse sertifikaadi \"{{certificateNo}}\". IKV on vastavushindamise menetluse all, mis põhineb sisekontrollil tootmisjärelevalve ning juhuslike toodete kontrollide (Module C2) alusel teavitatud asutuse \"{{bodyName}} (nr {{bodyNumber}})\" järelevalve all.",
     "notified.moduleD":
@@ -125,7 +125,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Der Hersteller erklärt hiermit, dass die nachstehend beschriebene Persönliche Schutzausrüstung (PSA):",
     "conformity.statement":
-      "mit den einschlägigen Harmonisierungsrechtsvorschriften der Union: {{euLegislation}} übereinstimmt und die anwendbaren grundlegenden Gesundheits- und Sicherheitsanforderungen gemäß Anhang II sowie die relevanten harmonisierten Normen oder sonstigen technischen Spezifikationen, Nr., erfüllt:",
+      "mit den einschlägigen Harmonisierungsrechtsvorschriften der Union: {{euLegislation}} übereinstimmt und die anwendbaren grundlegenden Gesundheits- und Sicherheitsanforderungen gemäß Anhang II sowie die relevanten harmonisierten Normen oder sonstigen technischen Spezifikationen, Nr. :",
     "notified.moduleC2":
       "Die benannte Stelle \"{{bodyName}} (Nr. {{bodyNumber}})\" hat die EU-Baumusterprüfung (Module B) durchgeführt und die EU-Baumusterprüfbescheinigung \"{{certificateNo}}\" ausgestellt. Die PSA unterliegt dem Konformitätsbewertungsverfahren auf Grundlage der internen Fertigungskontrolle mit überwachten Produktprüfungen in unregelmäßigen Abständen (Module C2) unter Aufsicht der benannten Stelle \"{{bodyName}} (Nr. {{bodyNumber}})\".",
     "notified.moduleD":
@@ -159,7 +159,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Il fabbricante dichiara che il seguente Dispositivo di Protezione Individuale (DPI):",
     "conformity.statement":
-      "è conforme alla pertinente legislazione di armonizzazione dell'Unione: {{euLegislation}} e soddisfa i requisiti essenziali di salute e sicurezza applicabili di cui all'allegato II nonché le pertinenti norme armonizzate o altre specifiche tecniche, n.:",
+      "è conforme alla pertinente legislazione di armonizzazione dell'Unione: {{euLegislation}} e soddisfa i requisiti essenziali di salute e sicurezza applicabili di cui all'allegato II nonché le pertinenti norme armonizzate o altre specifiche tecniche, n. :",
     "notified.moduleC2":
       "L'organismo notificato \"{{bodyName}} (n. {{bodyNumber}})\" ha effettuato l'esame UE del tipo (Module B) e rilasciato il certificato di esame UE del tipo \"{{certificateNo}}\". Il DPI è soggetto alla procedura di valutazione della conformità basata sul controllo interno della produzione con controlli a campione sui prodotti a intervalli casuali (Module C2) sotto la sorveglianza dell'organismo notificato \"{{bodyName}} (n. {{bodyNumber}})\".",
     "notified.moduleD":
@@ -176,7 +176,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "De fabrikant verklaart hierbij dat het onderstaande persoonlijk beschermingsmiddel (PBM):",
     "conformity.statement":
-      "voldoet aan de relevante EU-harmonisatiewetgeving: {{euLegislation}} en aan de toepasselijke essentiële gezondheids- en veiligheidseisen zoals uiteengezet in bijlage II, evenals aan de relevante geharmoniseerde normen of andere technische specificaties, nr:",
+      "voldoet aan de relevante EU-harmonisatiewetgeving: {{euLegislation}} en aan de toepasselijke essentiële gezondheids- en veiligheidseisen zoals uiteengezet in bijlage II, evenals aan de relevante geharmoniseerde normen of andere technische specificaties, nr. :",
     "notified.moduleC2":
       "De aangewezen instantie \"{{bodyName}} (nr. {{bodyNumber}})\" heeft de EU-typekeuring (Module B) uitgevoerd en het EU-typekeuringscertificaat \"{{certificateNo}}\" afgegeven. Het PBM is onderworpen aan de conformiteitsbeoordelingsprocedure op basis van interne productiecontrole met gecontroleerde productcontroles op willekeurige tijdstippen (Module C2) onder toezicht van de aangewezen instantie \"{{bodyName}} (nr. {{bodyNumber}})\".",
     "notified.moduleD":
@@ -193,7 +193,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "O fabricante declara que o Equipamento de Proteção Individual (EPI) descrito abaixo:",
     "conformity.statement":
-      "está em conformidade com a legislação de harmonização da União aplicável: {{euLegislation}} e cumpre os requisitos essenciais de saúde e segurança aplicáveis estabelecidos no Anexo II, bem como as normas harmonizadas relevantes ou outras especificações técnicas, n.º:",
+      "está em conformidade com a legislação de harmonização da União aplicável: {{euLegislation}} e cumpre os requisitos essenciais de saúde e segurança aplicáveis estabelecidos no Anexo II, bem como as normas harmonizadas relevantes ou outras especificações técnicas, n.º :",
     "notified.moduleC2":
       "O organismo notificado \"{{bodyName}} (n.º {{bodyNumber}})\" efetuou o exame UE de tipo (Module B) e emitiu o certificado de exame UE de tipo \"{{certificateNo}}\". O EPI está sujeito ao procedimento de avaliação da conformidade baseado no controlo interno da produção, com verificações de produtos supervisionadas a intervalos aleatórios (Module C2), sob a supervisão do organismo notificado \"{{bodyName}} (n.º {{bodyNumber}})\".",
     "notified.moduleD":
@@ -210,7 +210,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Ražotājs apliecina, ka turpmāk aprakstītais individuālais aizsardzības līdzeklis (IAL):",
     "conformity.statement":
-      "ir saskaņā ar attiecīgajiem Savienības saskaņošanas tiesību aktiem: {{euLegislation}} un atbilst pielikuma II būtiskajām veselības un drošības prasībām, kā arī attiecīgajiem harmonizētajiem standartiem vai citām tehniskajām specifikācijām, Nr.:",
+      "ir saskaņā ar attiecīgajiem Savienības saskaņošanas tiesību aktiem: {{euLegislation}} un atbilst pielikuma II būtiskajām veselības un drošības prasībām, kā arī attiecīgajiem harmonizētajiem standartiem vai citām tehniskajām specifikācijām, Nr. :",
     "notified.moduleC2":
       "Norādītā iestāde \"{{bodyName}} (Nr. {{bodyNumber}})\" veica ES tipa pārbaudi (Module B) un izdeva ES tipa pārbaudes sertifikātu \"{{certificateNo}}\". IAL ir pakļauts atbilstības novērtēšanas procedūrai, kas balstīta uz iekšējo ražošanas kontroli ar uzraudzītām produkta pārbaudēm nejaušos intervālos (Module C2) norādītās iestādes \"{{bodyName}} (Nr. {{bodyNumber}})\" uzraudzībā.",
     "notified.moduleD":
@@ -227,7 +227,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Framleiðandinn lýsir því hér með yfir að eftirfarandi persónuhlífar (PPE):",
     "conformity.statement":
-      "er í samræmi við viðeigandi löggjöf ESB um samræmingu: {{euLegislation}} og uppfyllir viðeigandi grunnkröfur um heilsu og öryggi sem settar eru fram í II. viðauka, auk viðeigandi samræmdra staðla eða annarra tæknilegra forskrifta, nr:",
+      "er í samræmi við viðeigandi löggjöf ESB um samræmingu: {{euLegislation}} og uppfyllir viðeigandi grunnkröfur um heilsu og öryggi sem settar eru fram í II. viðauka, auk viðeigandi samræmdra staðla eða annarra tæknilegra forskrifta, nr :",
     "notified.moduleC2":
       'Tilkynnti aðilinn "{{bodyName}} (nr. {{bodyNumber}})" framkvæmdi ESB gerðarprófun (Module B) og gaf út ESB gerðarprófunarvottorð "{{certificateNo}}". PPE er háð samræmismatsferli sem byggir á innri framleiðslueftirliti með vaktaðri úrtaksskoðun vöru (Module C2) undir eftirliti tilkynnta aðilans "{{bodyName}} (nr. {{bodyNumber}})".',
     "notified.moduleD":
@@ -244,7 +244,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "El fabricante declara que el Equipo de Protección Personal (EPP) descrito a continuación:",
     "conformity.statement":
-      "cumple con la legislación de armonización de la Unión aplicable: {{euLegislation}} y satisface los requisitos esenciales de salud y seguridad aplicables establecidos en el Anexo II, así como las normas armonizadas pertinentes u otras especificaciones técnicas, nº:",
+      "cumple con la legislación de armonización de la Unión aplicable: {{euLegislation}} y satisface los requisitos esenciales de salud y seguridad aplicables establecidos en el Anexo II, así como las normas armonizadas pertinentes u otras especificaciones técnicas, nº :",
     "notified.moduleC2":
       'El organismo notificado "{{bodyName}} (nº {{bodyNumber}})" realizó el examen UE de tipo (Module B) y emitió el certificado de examen UE de tipo "{{certificateNo}}". El EPP está sujeto al procedimiento de evaluación de la conformidad basado en el control interno de la producción con verificaciones supervisadas de productos a intervalos aleatorios (Module C2) bajo la supervisión del organismo notificado "{{bodyName}} (nº {{bodyNumber}})".',
     "notified.moduleD":
@@ -261,7 +261,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Výrobca týmto vyhlasuje, že nižšie opísané osobné ochranné prostriedky (OOP):",
     "conformity.statement":
-      "sú v súlade s príslušnými harmonizačnými právnymi predpismi Únie: {{euLegislation}} a spĺňajú uplatniteľné základné požiadavky na ochranu zdravia a bezpečnosť uvedené v prílohe II a relevantné harmonizované normy alebo iné technické špecifikácie, č.:",
+      "sú v súlade s príslušnými harmonizačnými právnymi predpismi Únie: {{euLegislation}} a spĺňajú uplatniteľné základné požiadavky na ochranu zdravia a bezpečnosť uvedené v prílohe II a relevantné harmonizované normy alebo iné technické špecifikácie, č. :",
     "notified.moduleC2":
       'Notifikovaný orgán "{{bodyName}} (č. {{bodyNumber}})" vykonal posúdenie typu EÚ (Module B) a vydal certifikát EÚ o preskúšaní typu "{{certificateNo}}". OOP podlieha postupu posudzovania zhody založenému na vnútornom riadení výroby doplnenom o dozorované kontroly výrobkov v náhodných intervaloch (Module C2) pod dohľadom notifikovaného orgánu "{{bodyName}} (č. {{bodyNumber}})".',
     "notified.moduleD":
@@ -278,7 +278,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Proizvajalec izjavlja, da je spodaj opisana osebna varovalna oprema (OVO):",
     "conformity.statement":
-      "v skladu z ustrezno zakonodajo EU o harmonizaciji: {{euLegislation}} in izpolnjuje bistvene zahteve za varovanje zdravja in varnosti iz Priloge II ter ustrezne harmonizirane standarde ali druge tehnične specifikacije, št.:",
+      "v skladu z ustrezno zakonodajo EU o harmonizaciji: {{euLegislation}} in izpolnjuje bistvene zahteve za varovanje zdravja in varnosti iz Priloge II ter ustrezne harmonizirane standarde ali druge tehnične specifikacije, št. :",
     "notified.moduleC2":
       'Priglašeni organ "{{bodyName}} (št. {{bodyNumber}})" je izvedel EU pregled tipa (Module B) in izdal certifikat EU o pregledu tipa "{{certificateNo}}". OVO je predmet postopka ugotavljanja skladnosti na podlagi notranje kontrole proizvodnje z nadzorovanimi pregledi izdelkov v naključnih intervalih (Module C2) pod nadzorom priglašenega organa "{{bodyName}} (št. {{bodyNumber}})".',
     "notified.moduleD":
@@ -295,7 +295,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Výrobce tímto prohlašuje, že níže popsané osobní ochranné prostředky (OOP):",
     "conformity.statement":
-      "jsou v souladu s příslušnými předpisy EU o harmonizaci: {{euLegislation}} a splňují příslušné základní požadavky na ochranu zdraví a bezpečnost uvedené v příloze II a relevantní harmonizované normy nebo jiné technické specifikace, č.:",
+      "jsou v souladu s příslušnými předpisy EU o harmonizaci: {{euLegislation}} a splňují příslušné základní požadavky na ochranu zdraví a bezpečnost uvedené v příloze II a relevantní harmonizované normy nebo jiné technické specifikace, č. :",
     "notified.moduleC2":
       'Oznámený subjekt "{{bodyName}} (č. {{bodyNumber}})" provedl posouzení typu EU (Module B) a vydal certifikát EU o přezkoušení typu "{{certificateNo}}". OOP podléhají postupu posuzování shody založenému na vnitřní kontrole výroby s dozorovanými kontrolami výrobků v náhodných intervalech (Module C2) pod dohledem oznámeného subjektu "{{bodyName}} (č. {{bodyNumber}})".',
     "notified.moduleD":
@@ -312,7 +312,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "A gyártó ezúton kijelenti, hogy az alább leírt egyéni védőeszköz (EVE):",
     "conformity.statement":
-      "összhangban van a vonatkozó uniós harmonizációs jogszabályokkal: {{euLegislation}} és megfelel a II. mellékletben meghatározott vonatkozó alapvető egészségvédelmi és biztonsági követelményeknek, valamint az alkalmazandó harmonizált szabványoknak vagy egyéb műszaki előírásoknak, sz.:",
+      "összhangban van a vonatkozó uniós harmonizációs jogszabályokkal: {{euLegislation}} és megfelel a II. mellékletben meghatározott vonatkozó alapvető egészségvédelmi és biztonsági követelményeknek, valamint az alkalmazandó harmonizált szabványoknak vagy egyéb műszaki előírásoknak, sz. :",
     "notified.moduleC2":
       'A bejelentett szervezet "{{bodyName}} (sz. {{bodyNumber}})" elvégezte az EU-típusvizsgálatot (Module B) és kiadta az EU-típusvizsgálati tanúsítványt "{{certificateNo}}". Az EVE megfelelőségértékelési eljárásnak van alávetve, amely a belső gyártásellenőrzésen és felügyelt termékellenőrzéseken alapul véletlenszerű időközönként (Module C2) a bejelentett szervezet "{{bodyName}} (sz. {{bodyNumber}})" felügyelete mellett.',
     "notified.moduleD":
@@ -320,7 +320,7 @@ export const translations: Record<string, Record<string, string>> = {
     "notified.other":
       'A bejelentett szervezet "{{bodyName}} (sz. {{bodyNumber}})" elvégezte az EU-típusvizsgálatot ({{moduleType}}) és kiadta az EU-típusvizsgálati tanúsítványt "{{certificateNo}}".',
     "product.safety.manager": "Termékbiztonsági vezető",
-    "product.itemNumber": "cikkszáma: {{productNumber}}",
+    "product.itemNumber": "cikkszáma {{productNumber}}",
   },
   lt: {
     "title.declaration": "ES atitikties deklaracija",
@@ -329,7 +329,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Gamintojas patvirtina, kad toliau aprašytos asmeninės apsaugos priemonės (AAP):",
     "conformity.statement":
-      "atitinka atitinkamus Sąjungos derinimo teisės aktus: {{euLegislation}} ir atitinka taikytinus esminius sveikatos ir saugos reikalavimus, nustatytus II priede, bei atitinkamus suderintuosius standartus ar kitus techninius dokumentus, Nr.:",
+      "atitinka atitinkamus Sąjungos derinimo teisės aktus: {{euLegislation}} ir atitinka taikytinus esminius sveikatos ir saugos reikalavimus, nustatytus II priede, bei atitinkamus suderintuosius standartus ar kitus techninius dokumentus, Nr. :",
     "notified.moduleC2":
       'Notifikuotoji įstaiga "{{bodyName}} (Nr. {{bodyNumber}})" atliko ES tipo tyrimą (Module B) ir išdavė ES tipo tyrimo sertifikatą "{{certificateNo}}". AAP taikoma atitikties vertinimo procedūra, pagrįsta vidine gamybos kontrole bei atsitiktiniais produktų patikrinimais prižiūrint notifikuotajai įstaigai "{{bodyName}} (Nr. {{bodyNumber}})".',
     "notified.moduleD":
@@ -346,7 +346,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Ο κατασκευαστής δηλώνει ότι ο ακόλουθος περιγραφόμενος ατομικός προστατευτικός εξοπλισμός (ΜΑΠ):",
     "conformity.statement":
-      "συμμορφώνεται με τη σχετική νομοθεσία εναρμόνισης της Ένωσης: {{euLegislation}} και πληροί τις εφαρμόσιμες βασικές απαιτήσεις υγείας και ασφάλειας που ορίζονται στο Παράρτημα II καθώς και τα σχετικά εναρμονισμένα πρότυπα ή άλλες τεχνικές προδιαγραφές, αριθ.:",
+      "συμμορφώνεται με τη σχετική νομοθεσία εναρμόνισης της Ένωσης: {{euLegislation}} και πληροί τις εφαρμόσιμες βασικές απαιτήσεις υγείας και ασφάλειας που ορίζονται στο Παράρτημα II καθώς και τα σχετικά εναρμονισμένα πρότυπα ή άλλες τεχνικές προδιαγραφές, αριθ. :",
     "notified.moduleC2":
       'Ο κοινοποιημένος οργανισμός "{{bodyName}} (αρ. {{bodyNumber}})" διενήργησε εξέταση τύπου ΕΕ (Module B) και εξέδωσε το πιστοποιητικό εξέτασης τύπου ΕΕ "{{certificateNo}}". Ο ΜΑΠ υπόκειται στη διαδικασία αξιολόγησης συμμόρφωσης βάσει εσωτερικού ελέγχου παραγωγής με επιτηρούμενους ελέγχους προϊόντων σε τυχαία διαστήματα (Module C2) υπό την εποπτεία του κοινοποιημένου οργανισμού "{{bodyName}} (αρ. {{bodyNumber}})".',
     "notified.moduleD":
@@ -363,7 +363,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Proizvođač ovime izjavljuje da sljedeća osobna zaštitna oprema (OZO):",
     "conformity.statement":
-      "sukladna je relevantnom zakonodavstvu Unije o usklađivanju: {{euLegislation}} i ispunjava primjenjive bitne zahtjeve za zdravlje i sigurnost utvrđene u Prilogu II, kao i relevantne usklađene norme ili druge tehničke specifikacije, br.:",
+      "sukladna je relevantnom zakonodavstvu Unije o usklađivanju: {{euLegislation}} i ispunjava primjenjive bitne zahtjeve za zdravlje i sigurnost utvrđene u Prilogu II, kao i relevantne usklađene norme ili druge tehničke specifikacije, br. :",
     "notified.moduleC2":
       'Prijavljeno tijelo "{{bodyName}} (br. {{bodyNumber}})" provelo je EU ispitivanje tipa (Module B) i izdalo EU certifikat o ispitivanju tipa "{{certificateNo}}". OZO podliježe postupku ocjenjivanja sukladnosti na temelju unutarnje kontrole proizvodnje uz nadzirane kontrole proizvoda u nasumičnim intervalima (Module C2) pod nadzorom prijavljenog tijela "{{bodyName}} (br. {{bodyNumber}})".',
     "notified.moduleD":
