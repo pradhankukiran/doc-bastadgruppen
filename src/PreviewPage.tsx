@@ -5,6 +5,8 @@ import { ArrowLeft, Download } from "lucide-react";
 import { pdf } from "@react-pdf/renderer";
 import DocPdfTemplate from "./components/DocPdfTemplate";
 import { DeclarationFormData } from "./types";
+// Add JSZip import - Will need to install this package
+import JSZip from "jszip";
 
 // Map display language names to ISO codes used in translations.ts
 const LANG_NAME_TO_CODE: Record<string, string> = {
@@ -186,16 +188,73 @@ function PreviewPage() {
     const completedPdfs = languageStates.filter(
       (state) => state.state === "completed" && state.pdfData
     );
-    completedPdfs.forEach(({ pdfData }) => {
-      if (pdfData) {
-        const link = document.createElement("a");
-        link.href = pdfData.blobUrl;
-        link.download = `DoC_${formData.productInfo.name}_${pdfData.lang}.pdf`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    });
+    
+    if (completedPdfs.length === 0) return;
+    
+    try {
+      // Create a new zip instance
+      const zip = new JSZip();
+      
+      // Add each PDF to the zip
+      const fetchPromises = completedPdfs.map(async ({ pdfData }) => {
+        if (!pdfData) return;
+        
+        // Fetch the PDF data
+        const response = await fetch(pdfData.blobUrl);
+        const pdfBlob = await response.blob();
+        
+        // Add the PDF to the zip with a language-specific name
+        const filename = `DoC_${formData.productInfo.name}_${pdfData.lang}.pdf`;
+        zip.file(filename, pdfBlob);
+      });
+      
+      // Wait for all PDFs to be added to the zip
+      await Promise.all(fetchPromises);
+      
+      // Generate the zip file
+      const zipContent = await zip.generateAsync({ type: "blob" });
+      
+      // Create a download link for the zip file
+      const zipUrl = URL.createObjectURL(zipContent);
+      const link = document.createElement("a");
+      link.href = zipUrl;
+      link.download = `DoC_${formData.productInfo.name}.zip`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up the URL object
+      setTimeout(() => URL.revokeObjectURL(zipUrl), 100);
+    } catch (error) {
+      console.error("Error creating zip file:", error);
+      // Fallback to individual downloads if zip creation fails
+      completedPdfs.forEach(({ pdfData }) => {
+        if (pdfData) {
+          const link = document.createElement("a");
+          link.href = pdfData.blobUrl;
+          link.download = `DoC_${formData.productInfo.name}_${pdfData.lang}.pdf`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      });
+    }
+  };
+  
+  // Helper to download current PDF
+  const downloadCurrent = () => {
+    const currentPdf = languageStates.find(
+      (state) => state.pdfData?.dataUrl === selectedPdfDataUrl
+    );
+    
+    if (currentPdf?.pdfData) {
+      const link = document.createElement("a");
+      link.href = currentPdf.pdfData.blobUrl;
+      link.download = `DoC_${formData.productInfo.name}_${currentPdf.pdfData.lang}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   return (
@@ -214,7 +273,16 @@ function PreviewPage() {
         </div>
 
         {/* Center */}
-        <div className="flex-grow flex justify-center">
+        <div className="flex-grow flex justify-center gap-4">
+          <button
+            type="button"
+            onClick={downloadCurrent}
+            disabled={!selectedPdfDataUrl}
+            className="group relative inline-flex items-center gap-2 px-4 py-2 border-2 border-brand-primary rounded-md text-sm font-semibold text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-accent disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Download className="h-4 w-4" /> Download Current
+          </button>
+          
           <button
             type="button"
             onClick={downloadAll}
