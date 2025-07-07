@@ -798,7 +798,7 @@ function FormPage() {
       <img
         src={CompanyLogo}
         alt="Company Logo"
-        className="absolute top-4 right-4 h-[50px] w-auto"
+        className="absolute top-4 right-4 h-[30px] sm:h-[50px] w-auto"
       />
 
       <main className="relative z-10 px-6 pt-20 pb-10 sm:pt-12 sm:pb-26">
@@ -889,7 +889,7 @@ function FormPage() {
                   disabled={!isStepComplete()}
                   className="group relative inline-flex items-center gap-2 px-4 py-2 border-2 border-brand-primary rounded-md text-sm font-semibold text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-white hover:shadow-lg focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <span className="relative z-10">Generate</span>
+                  <span className="relative z-10">Next</span>
                   <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   <span className="absolute inset-0 bg-brand-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-md"></span>
                 </button>

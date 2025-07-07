@@ -260,9 +260,9 @@ function PreviewPage() {
   return (
     <div className="flex flex-col h-screen bg-brand-background-DEFAULT font-sans animate-fade-in">
       {/* Top bar */}
-      <header className="flex-shrink-0 p-4 flex items-center gap-1 flex-nowrap">
+      <header className="flex-shrink-0 p-4 relative flex flex-wrap items-center gap-y-4 sm:flex-nowrap sm:gap-1">
         {/* Back */}
-        <div className="flex-shrink-0 w-auto">
+        <div className="flex-shrink-0 w-auto order-1">
           <button
             type="button"
             onClick={() => navigate("/form")}
@@ -275,7 +275,7 @@ function PreviewPage() {
         </div>
 
         {/* Center */}
-        <div className="flex flex-nowrap justify-center flex-grow gap-2">
+        <div className="flex flex-nowrap justify-center flex-grow gap-2 order-3 sm:order-2 w-full sm:w-auto">
           <button
             type="button"
             onClick={downloadCurrent}
@@ -299,17 +299,17 @@ function PreviewPage() {
         </div>
 
         {/* Logo */}
-        <div className="w-24 sm:w-32 flex-shrink-0 flex justify-end ml-auto">
+        <div className="w-24 sm:w-32 flex-shrink-0 flex justify-end ml-auto order-2 sm:order-3 absolute top-4 right-4 sm:static">
           <img
             src={CompanyLogo}
             alt="Company Logo"
-            className="h-[50px] w-auto max-w-full object-contain"
+            className="h-[30px] sm:h-[50px] w-auto max-w-full object-contain"
           />
         </div>
       </header>
 
       {/* Content area */}
-      <main className="flex-1 relative flex justify-center items-center overflow-hidden px-4 pt-4">
+      <main className="flex-1 relative flex justify-center items-center overflow-hidden px-4 pt-4 pb-16 md:pb-4">
         {/* PDF preview */}
         <div className="h-full w-full max-w-[800px]">
           {selectedPdfDataUrl ? (
@@ -370,7 +370,7 @@ function PreviewPage() {
 
       {/* Mobile language selector */}
       {languageStates.length > 1 && (
-        <footer className="md:hidden p-3 bg-transparent flex gap-3 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <footer className="fixed bottom-0 left-0 right-0 md:hidden p-3 bg-white border-t border-gray-200 flex gap-3 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {languageStates.map((langState) => {
             const isCompleted = langState.state === "completed";
             const isSelected = langState.pdfData?.dataUrl === selectedPdfDataUrl;
@@ -385,7 +385,7 @@ function PreviewPage() {
                     : undefined
                 }
                 disabled={!isCompleted}
-                className={`px-3 py-1 rounded-md text-xs whitespace-nowrap transition-all duration-200 shrink-0 ${
+                className={`px-4 py-2 rounded-md text-sm whitespace-nowrap transition-all duration-200 shrink-0 ${
                   isSelected
                     ? "bg-brand-primary text-white"
                     : isCompleted
