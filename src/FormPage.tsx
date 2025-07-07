@@ -195,6 +195,13 @@ function FormPage() {
     step,
   ]);
 
+  // Scroll to top on step change (mobile only)
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 640) {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+  }, [step]);
+
   const isStepComplete = () => {
     const currentStep = step;
     switch (currentStep) {
@@ -371,7 +378,7 @@ function FormPage() {
 
         return (
           <>
-            <div className="grid grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {languages.map((item) => {
                 const isChecked = selected.includes(item);
 
@@ -419,7 +426,7 @@ function FormPage() {
       case 1:
         return (
           <div className="space-y-6">
-            <div className="flex items-start gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex-1">
                 <label
                   className="block text-sm font-medium mb-1 text-brand-primary"
@@ -459,77 +466,81 @@ function FormPage() {
                 />
               </div>
             </div>
-            <div className="flex items-end gap-6">
-              <div>
-                <label className="block text-sm font-medium mb-1 text-brand-primary">
-                  Category Class
-                </label>
-                <div className="flex gap-4">
-                  {categoryClasses.map((category) => (
-                    <div key={category} className="relative">
-                      <input
-                        type="radio"
-                        id={`category-${category}`}
-                        name="categoryClass"
-                        value={category}
-                        checked={productInfo.categoryClass === category}
-                        onChange={(e) => {
-                          const newCategoryClass = e.target.value;
-                          setProductInfo((prev) => ({
-                            ...prev,
-                            categoryClass: newCategoryClass,
-                            certificateNo:
-                              newCategoryClass === "Class I"
-                                ? ""
-                                : prev.certificateNo,
-                            moduleType:
-                              newCategoryClass === "Class III"
-                                ? prev.moduleType
-                                : "",
-                          }));
-                        }}
-                        className="peer absolute opacity-0 h-0 w-0"
-                      />
-                      <label
-                        htmlFor={`category-${category}`}
-                        className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
-                      >
-                        {category}
-                      </label>
-                    </div>
-                  ))}
-                </div>
+
+            {/* Category Class Row */}
+            <div>
+              <label className="block text-sm font-medium mb-1 text-brand-primary">
+                Category Class
+              </label>
+              <div className="flex flex-wrap gap-4">
+                {categoryClasses.map((category) => (
+                  <div key={category} className="relative">
+                    <input
+                      type="radio"
+                      id={`category-${category}`}
+                      name="categoryClass"
+                      value={category}
+                      checked={productInfo.categoryClass === category}
+                      onChange={(e) => {
+                        const newCategoryClass = e.target.value;
+                        setProductInfo((prev) => ({
+                          ...prev,
+                          categoryClass: newCategoryClass,
+                          certificateNo:
+                            newCategoryClass === "Class I"
+                              ? ""
+                              : prev.certificateNo,
+                          moduleType:
+                            newCategoryClass === "Class III"
+                              ? prev.moduleType
+                              : "",
+                        }));
+                      }}
+                      className="peer absolute opacity-0 h-0 w-0"
+                    />
+                    <label
+                      htmlFor={`category-${category}`}
+                      className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
+                    >
+                      {category}
+                    </label>
+                  </div>
+                ))}
               </div>
-              {(productInfo.categoryClass === "Class II" ||
-                productInfo.categoryClass === "Class III") && (
-                <div className="flex-1">
-                  <label
-                    className="block text-sm font-medium mb-1 text-brand-primary"
-                    htmlFor="certificateNo"
-                  >
-                    Certificate No.
-                  </label>
-                  <input
-                    id="certificateNo"
-                    type="text"
-                    value={productInfo.certificateNo}
-                    onChange={(e) =>
-                      setProductInfo({
-                        ...productInfo,
-                        certificateNo: e.target.value,
-                      })
-                    }
-                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
-                  />
-                </div>
-              )}
             </div>
+
+            {/* Certificate Row (shown for Class II & III) */}
+            {(productInfo.categoryClass === "Class II" ||
+              productInfo.categoryClass === "Class III") && (
+              <div>
+                <label
+                  className="block text-sm font-medium mb-1 text-brand-primary"
+                  htmlFor="certificateNo"
+                >
+                  Certificate No.
+                </label>
+                <input
+                  id="certificateNo"
+                  type="text"
+                  value={productInfo.certificateNo}
+                  onChange={(e) =>
+                    setProductInfo({
+                      ...productInfo,
+                      certificateNo: e.target.value,
+                    })
+                  }
+                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                />
+              </div>
+            )}
+
+            {/* Module Type Row (shown for Class III) */}
             {productInfo.categoryClass === "Class III" && (
-              <div className="mt-4">
+              <div>
                 <label className="block text-sm font-medium mb-1 text-brand-primary">
                   Module Type
                 </label>
-                <div className="flex gap-4">
+                <div className="flex flex-wrap gap-4">
                   {moduleTypes.map((module) => (
                     <div key={module} className="relative">
                       <input
@@ -563,7 +574,7 @@ function FormPage() {
         return (
           <div className="space-y-6">
             <div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {brands.map((brand) => (
                   <div key={brand.name}>
                     <div className="relative">
@@ -612,7 +623,7 @@ function FormPage() {
             {/* <h3 className="text-lg font-medium text-black mb-4">
               Select Notified Bodies
             </h3> */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {notifiedBodies.map((body) => (
                 <div key={body.id} className="relative">
                   <input
@@ -790,7 +801,7 @@ function FormPage() {
         className="absolute top-4 right-4 h-[50px] w-auto"
       />
 
-      <main className="relative z-10 px-6 py-12 pb-26">
+      <main className="relative z-10 px-6 pt-20 pb-10 sm:pt-12 sm:pb-26">
         <div
           className={`mx-auto transition-all duration-500 ease-in-out max-w-3xl select-none`}
         >
@@ -821,7 +832,7 @@ function FormPage() {
       </main>
 
       <form
-        className="fixed bottom-0 left-0 w-full z-20"
+        className="w-full sm:fixed sm:bottom-0 sm:left-0 sm:z-20"
         onSubmit={(e) => e.preventDefault()}
       >
         <div

@@ -260,44 +260,50 @@ function PreviewPage() {
   return (
     <div className="flex flex-col h-screen bg-brand-background-DEFAULT font-sans animate-fade-in">
       {/* Top bar */}
-      <header className="flex-shrink-0 p-4 flex items-center">
+      <header className="flex-shrink-0 p-4 flex items-center gap-1 flex-nowrap">
         {/* Back */}
-        <div className="w-34 flex-shrink-0">
+        <div className="flex-shrink-0 w-auto">
           <button
             type="button"
             onClick={() => navigate("/form")}
-            className="group relative inline-flex items-center gap-2 px-4 py-2 border-2 border-brand-primary rounded-md text-sm font-semibold text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-accent"
+            className="group relative inline-flex items-center gap-1 px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm border-2 border-brand-primary rounded-md font-semibold text-brand-primary whitespace-nowrap transition-all duration-300 hover:bg-brand-primary hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-accent"
           >
-            <ArrowLeft className="h-4 w-4" /> Back to Form
+            <ArrowLeft className="h-4 w-4" />
+            <span className="sm:hidden">Form</span>
+            <span className="hidden sm:inline">Back to Form</span>
           </button>
         </div>
 
         {/* Center */}
-        <div className="flex-grow flex justify-center gap-4">
+        <div className="flex flex-nowrap justify-center flex-grow gap-2">
           <button
             type="button"
             onClick={downloadCurrent}
             disabled={!selectedPdfDataUrl}
-            className="group relative inline-flex items-center gap-2 px-4 py-2 border-2 border-brand-primary rounded-md text-sm font-semibold text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-accent disabled:opacity-50 disabled:cursor-not-allowed"
+            className="group relative inline-flex items-center gap-1 px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm border-2 border-brand-primary rounded-md font-semibold text-brand-primary whitespace-nowrap transition-all duration-300 hover:bg-brand-primary hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-accent disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Download className="h-4 w-4" /> Download Current
+            <Download className="h-4 w-4" />
+            <span className="sm:hidden">Current</span>
+            <span className="hidden sm:inline">Download Current</span>
           </button>
           
           <button
             type="button"
             onClick={downloadAll}
-            className="group relative inline-flex items-center gap-2 px-4 py-2 border-2 border-brand-primary rounded-md text-sm font-semibold text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-accent"
+            className="group relative inline-flex items-center gap-1 px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm border-2 border-brand-primary rounded-md font-semibold text-brand-primary whitespace-nowrap transition-all duration-300 hover:bg-brand-primary hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-accent"
           >
-            <Download className="h-4 w-4" /> Download All
+            <Download className="h-4 w-4" />
+            <span className="sm:hidden">All</span>
+            <span className="hidden sm:inline">Download All</span>
           </button>
         </div>
 
         {/* Logo */}
-        <div className="w-32 flex-shrink-0 flex justify-end">
+        <div className="w-24 sm:w-32 flex-shrink-0 flex justify-end ml-auto">
           <img
             src={CompanyLogo}
             alt="Company Logo"
-            className="h-[50px] w-auto"
+            className="h-[50px] w-auto max-w-full object-contain"
           />
         </div>
       </header>
@@ -324,7 +330,7 @@ function PreviewPage() {
 
         {/* Language selection sidebar */}
         {languageStates.length > 1 && (
-          <aside className="absolute top-4 right-4 bottom-4 w-40 p-4 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <aside className="hidden md:absolute md:top-4 md:right-4 md:bottom-4 md:w-40 md:p-4 md:block overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="space-y-2">
               {languageStates.map((langState) => {
                 const isCompleted = langState.state === "completed";
@@ -361,6 +367,38 @@ function PreviewPage() {
           </aside>
         )}
       </main>
+
+      {/* Mobile language selector */}
+      {languageStates.length > 1 && (
+        <footer className="md:hidden p-3 bg-transparent flex gap-3 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {languageStates.map((langState) => {
+            const isCompleted = langState.state === "completed";
+            const isSelected = langState.pdfData?.dataUrl === selectedPdfDataUrl;
+
+            return (
+              <button
+                key={langState.lang}
+                type="button"
+                onClick={() =>
+                  isCompleted && langState.pdfData
+                    ? handleLanguageSelect(langState.pdfData.dataUrl)
+                    : undefined
+                }
+                disabled={!isCompleted}
+                className={`px-3 py-1 rounded-md text-xs whitespace-nowrap transition-all duration-200 shrink-0 ${
+                  isSelected
+                    ? "bg-brand-primary text-white"
+                    : isCompleted
+                    ? "bg-white border border-brand-primary text-brand-primary"
+                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                }`}
+              >
+                {langState.lang.toUpperCase()}
+              </button>
+            );
+          })}
+        </footer>
+      )}
     </div>
   );
 }
