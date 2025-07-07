@@ -14,6 +14,20 @@ Font.register({
   fonts: [{ src: LatoRegular }, { src: LatoBold, fontWeight: "bold" }],
 });
 
+// Register Noto Sans (supports extended Latin characters)
+Font.register({
+  family: "NotoSans",
+  fonts: [
+    {
+      src: "https://raw.githubusercontent.com/googlefonts/noto-fonts/main/hinted/ttf/NotoSans/NotoSans-Regular.ttf",
+    },
+    {
+      src: "https://raw.githubusercontent.com/googlefonts/noto-fonts/main/hinted/ttf/NotoSans/NotoSans-Bold.ttf",
+      fontWeight: "bold",
+    },
+  ],
+});
+
 type Props = {
   formData: DeclarationFormData;
   language: string;
@@ -21,6 +35,22 @@ type Props = {
 
 const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
   const { productInfo, selectedBodyDetails, complianceInfo } = formData;
+
+  // Determine which font family to use based on language (use NotoSans for languages with extended Latin)
+  const extendedLangs = [
+    "lv",
+    "cs",
+    "sk",
+    "sl",
+    "lt",
+    "hr",
+    "hu",
+    "pl",
+    "et",
+    "is",
+    "el",
+  ];
+  const pageFontFamily = extendedLangs.includes(language) ? "NotoSans" : "Lato";
 
   // Map brand names (as stored in form data) to image paths in the public folder
   const brandLogoMap: Record<string, string> = {
@@ -55,14 +85,11 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
   const signerName = nameMap[formData.selectedBrands] || "";
 
   // Format current date as "dd mm yyyy"
-  const formattedDate = new Date()
-    .toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })
-    ;
-
+  const formattedDate = new Date().toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
   const finalProductInfo = {
     ...productInfo,
     moduleType:
@@ -76,11 +103,11 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
       <Page
         size="A4"
         style={{
-          fontSize: 12,
-          paddingTop: 100,
+          fontSize: 10,
+          paddingTop: 80,
           paddingBottom: 10,
           paddingHorizontal: 60,
-          fontFamily: "Lato",
+          fontFamily: pageFontFamily,
           lineHeight: 1.5,
         }}
         wrap
@@ -100,19 +127,19 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
         >
           <View
             style={{
-              width: 14,
-              height: 33,
+              width: 15,
+              height: 30,
               backgroundColor: "black",
               marginRight: 7,
-              marginTop: -5,
+              marginTop: -3,
             }}
           />
           <View>
             <Text
               style={{
-                fontSize: 17,
+                fontSize: 15,
                 textAlign: "left",
-                marginBottom: 7,
+                marginBottom: 9,
               }}
             >
               {t(language, "title.declaration")}
@@ -120,7 +147,7 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
             {finalProductInfo.categoryClass && (
               <Text
                 style={{
-                  fontSize: 10,
+                  fontSize: 9,
                   textAlign: "left",
                 }}
               >
@@ -144,21 +171,21 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
         >
           <Text
             style={{
-              fontSize: 12,
+              fontSize: 11,
               marginBottom: 20,
             }}
           >
             {t(language, "responsibility.statement")}
           </Text>
-          <Text style={{ fontSize: 12 }}>Båstadgruppen AB</Text>
-          <Text style={{ fontSize: 12 }}>Fraktgatan 1</Text>
-          <Text style={{ fontSize: 12 }}>262 73 Ängelholm</Text>
-          <Text style={{ fontSize: 12 }}>Sweden</Text>
+          <Text style={{ fontSize: 11 }}>Båstadgruppen AB</Text>
+          <Text style={{ fontSize: 11 }}>Fraktgatan 1</Text>
+          <Text style={{ fontSize: 11 }}>262 73 Ängelholm</Text>
+          <Text style={{ fontSize: 11 }}>Sweden</Text>
         </View>
         {/* Declaration statement */}
         <View style={{ marginBottom: 10 }}>
           <Text
-            style={{ fontSize: 12, textAlign: "center", paddingHorizontal: 70 }}
+            style={{ fontSize: 11, textAlign: "center", paddingHorizontal: 70 }}
           >
             {t(language, "declares.ppe")}
           </Text>
@@ -177,10 +204,10 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
 
         {/* Product information */}
         <View style={{ marginBottom: 12, textAlign: "center" }}>
-          <Text style={{ fontSize: 17, marginBottom: 10 }}>
+          <Text style={{ fontSize: 15, marginBottom: 10 }}>
             {finalProductInfo.name}
           </Text>
-          <Text style={{ fontSize: 13 }}>
+          <Text style={{ fontSize: 11 }}>
             {t(language, "product.itemNumber", {
               productNumber: finalProductInfo.productNumber,
             })}
@@ -204,9 +231,9 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
             <Text
               key={idx}
               style={{
-                fontSize: 11,
+                fontSize: 10,
                 marginLeft: 12,
-                marginBottom: 10,
+                marginBottom: 7,
               }}
             >
               • {std}
@@ -271,22 +298,22 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            marginBottom: 20,
+            marginBottom: 15,
           }}
         >
           {/* Left column – Notified Address */}
           {selectedBodyDetails && (
             <View style={{ flex: 1, marginRight: 20 }}>
-              <Text style={{ fontSize: 11, marginBottom: 3 }}>
+              <Text style={{ fontSize: 10, marginBottom: 3 }}>
                 {selectedBodyDetails.name}
               </Text>
-              <Text style={{ fontSize: 11, marginBottom: 3 }}>
+              <Text style={{ fontSize: 10, marginBottom: 3 }}>
                 Notified Body No. {selectedBodyDetails.number}
               </Text>
-              <Text style={{ fontSize: 11, marginBottom: 3 }}>
+              <Text style={{ fontSize: 10, marginBottom: 3 }}>
                 {selectedBodyDetails.address}
               </Text>
-              <Text style={{ fontSize: 11, marginBottom: 3 }}>
+              <Text style={{ fontSize: 10, marginBottom: 3 }}>
                 {selectedBodyDetails.zipCode}, {selectedBodyDetails.country}
               </Text>
             </View>
@@ -306,13 +333,13 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, language }) => {
                   style={{ width: 120, marginBottom: 3 }}
                   fixed
                 />
-                <Text style={{ fontSize: 11 }}>
+                <Text style={{ fontSize: 10 }}>
                   {t(language, "product.safety.manager")}
                 </Text>
                 {signerName && (
-                  <Text style={{ fontSize: 11 }}>{signerName}</Text>
+                  <Text style={{ fontSize: 10 }}>{signerName}</Text>
                 )}
-                <Text style={{ fontSize: 11 }}>{formattedDate}</Text>
+                <Text style={{ fontSize: 10 }}>{formattedDate}</Text>
               </>
             )}
           </View>
