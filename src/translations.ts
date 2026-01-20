@@ -13,7 +13,7 @@ export const translations: Record<string, Record<string, string>> = {
       'The notified body "{{bodyName}} (No {{bodyNumber}})" performed the EU type-examination (Module B) and issued the EU type-examination certificate "{{certificateNo}}". The PPE is subject to the conformity assessment procedure based on quality assurance of the production process (Module D) under surveillance of the notified body "{{bodyName}} (No {{bodyNumber}})".',
     "notified.other":
       'The notified body "{{bodyName}} (No {{bodyNumber}})" performed the EU type-examination ({{moduleType}}) and issued the EU type-examination certificate "{{certificateNo}}".',
-    "product.safety.manager": "Product Safety Manager",
+    "product.manager": "Product Manager",
     "product.itemNumber": "with item number {{productNumber}}",
   },
   sv: {
@@ -30,7 +30,7 @@ export const translations: Record<string, Record<string, string>> = {
       'Det anmälda organet "{{bodyName}} (nr {{bodyNumber}})" har utfört EU-typkontroll (Module B) och utfärdat EU-typkontrollintyg "{{certificateNo}}". PPE är föremål för bedömning av överensstämmelse baserad på kvalitetssäkring av produktionsprocessen (Module D) under tillsyn av det anmälda organet "{{bodyName}} (nr {{bodyNumber}})".',
     "notified.other":
       'Det anmälda organet "{{bodyName}} (nr {{bodyNumber}})" har utfört EU-typkontroll ({{moduleType}}) och utfärdat EU-typkontrollintyg "{{certificateNo}}".',
-    "product.safety.manager": "Produktsäkerhetschef",
+    "product.manager": "Produktchef",
     "product.itemNumber": "med artikelnummer {{productNumber}}",
   },
   no: {
@@ -47,7 +47,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Det meldte organet \"{{bodyName}} (nr. {{bodyNumber}})\" har utført EU-typeprøving (Module B) og utstedt EU-typeprøvingssertifikat \"{{certificateNo}}\". PVU-en er gjenstand for samsvarsvurderingsprosedyre basert på kvalitetssikring av produksjonsprosessen (Module D) under tilsyn av det meldte organet \"{{bodyName}} (nr. {{bodyNumber}})\".",
     "notified.other":
       "Det meldte organet \"{{bodyName}} (nr. {{bodyNumber}})\" har utført EU-typeprøving ({{moduleType}}) og utstedt EU-typeprøvingssertifikat \"{{certificateNo}}\".",
-    "product.safety.manager": "Produktsikkerhetssjef",
+    "product.manager": "Produktsjef",
     "product.itemNumber": "med artikkelnummer {{productNumber}}",
   },
   da: {
@@ -64,7 +64,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Det bemyndigede organ \"{{bodyName}} (nr. {{bodyNumber}})\" har udført EU-typeafprøvning (Module B) og udstedt EU-typeafprøvningscertifikat \"{{certificateNo}}\". PPE'en er underlagt vurderingsproceduren for overensstemmelse baseret på kvalitetssikring af produktionsprocessen (Module D) under tilsyn af det bemyndigede organ \"{{bodyName}} (nr. {{bodyNumber}})\".",
     "notified.other":
       "Det bemyndigede organ \"{{bodyName}} (nr. {{bodyNumber}})\" har udført EU-typeafprøvning ({{moduleType}}) og udstedt EU-typeafprøvningscertifikat \"{{certificateNo}}\".",
-    "product.safety.manager": "Produktsikkerhedschef",
+    "product.manager": "Produktchef",
     "product.itemNumber": "med artikelnummer {{productNumber}}",
   },
   fi: {
@@ -81,7 +81,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Ilmoitettu laitos \"{{bodyName}} (Nro {{bodyNumber}})\" on suorittanut EU-tyyppitarkastuksen (Module B) ja myöntänyt EU-tyyppitarkastustodistuksen \"{{certificateNo}}\". PPE on vaatimustenmukaisuuden arviointimenettelyn alainen, joka perustuu tuotantoprosessin laadunvarmistukseen (Module D) ilmoitetun laitoksen \"{{bodyName}} (Nro {{bodyNumber}})\" valvonnassa.",
     "notified.other":
       "Ilmoitettu laitos \"{{bodyName}} (Nro {{bodyNumber}})\" on suorittanut EU-tyyppitarkastuksen ({{moduleType}}) ja myöntänyt EU-tyyppitarkastustodistuksen \"{{certificateNo}}\".",
-    "product.safety.manager": "Tuoteturvallisuuspäällikkö",
+    "product.manager": "Tuotepäällikkö",
     "product.itemNumber": "tuotenumerolla {{productNumber}}",
   },
   pl: {
@@ -98,7 +98,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Jednostka notyfikowana \"{{bodyName}} (nr {{bodyNumber}})\" przeprowadziła badanie typu UE (Module B) i wydała certyfikat badania typu UE \"{{certificateNo}}\". ŚOI podlega procedurze oceny zgodności na podstawie zapewnienia jakości procesu produkcyjnego (Module D) pod nadzorem jednostki notyfikowanej \"{{bodyName}} (nr {{bodyNumber}})\".",
     "notified.other":
       "Jednostka notyfikowana \"{{bodyName}} (nr {{bodyNumber}})\" przeprowadziła badanie typu UE ({{moduleType}}) i wydała certyfikat badania typu UE \"{{certificateNo}}\".",
-    "product.safety.manager": "Kierownik ds. Bezpieczeństwa Produktu",
+    "product.manager": "Kierownik Produktu",
     "product.itemNumber": "o numerze artykułu {{productNumber}}",
   },
   et: {
@@ -115,7 +115,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Teavitatud asutus \"{{bodyName}} (nr {{bodyNumber}})\" viis läbi EL-i tüübikatse (Module B) ja väljastas EL-i tüübikatse sertifikaadi \"{{certificateNo}}\". IKV on vastavushindamise menetluse all, mis põhineb tootmisprotsessi kvaliteedi tagamisel (Module D) teavitatud asutuse \"{{bodyName}} (nr {{bodyNumber}})\" järelevalve all.",
     "notified.other":
       "Teavitatud asutus \"{{bodyName}} (nr {{bodyNumber}})\" viis läbi EL-i tüübikatse ({{moduleType}}) ja väljastas EL-i tüübikatse sertifikaadi \"{{certificateNo}}\".",
-    "product.safety.manager": "Tooteturvalisuse juht",
+    "product.manager": "Tootejuht",
     "product.itemNumber": "tootenumbriga {{productNumber}}",
   },
   de: {
@@ -132,7 +132,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Die benannte Stelle \"{{bodyName}} (Nr. {{bodyNumber}})\" hat die EU-Baumusterprüfung (Module B) durchgeführt und die EU-Baumusterprüfbescheinigung \"{{certificateNo}}\" ausgestellt. Die PSA unterliegt dem Konformitätsbewertungsverfahren auf Grundlage der Qualitätssicherung des Produktionsprozesses (Module D) unter Aufsicht der benannten Stelle \"{{bodyName}} (Nr. {{bodyNumber}})\".",
     "notified.other":
       "Die benannte Stelle \"{{bodyName}} (Nr. {{bodyNumber}})\" hat die EU-Baumusterprüfung ({{moduleType}}) durchgeführt und die EU-Baumusterprüfbescheinigung \"{{certificateNo}}\" ausgestellt.",
-    "product.safety.manager": "Leiter Produktsicherheit",
+    "product.manager": "Produktmanager",
     "product.itemNumber": "mit Artikelnummer {{productNumber}}",
   },
   fr: {
@@ -149,7 +149,7 @@ export const translations: Record<string, Record<string, string>> = {
       "L'organisme notifié \"{{bodyName}} (n° {{bodyNumber}})\" a effectué l'examen UE de type (Module B) et délivré le certificat d'examen UE de type \"{{certificateNo}}\". L'EPI fait l'objet de la procédure d'évaluation de la conformité basée sur l'assurance qualité du processus de production (Module D) sous la surveillance de l'organisme notifié \"{{bodyName}} (n° {{bodyNumber}})\".",
     "notified.other":
       "L'organisme notifié \"{{bodyName}} (n° {{bodyNumber}})\" a effectué l'examen UE de type ({{moduleType}}) et délivré le certificat d'examen UE de type \"{{certificateNo}}\".",
-    "product.safety.manager": "Responsable sécurité produit",
+    "product.manager": "Responsable produit",
     "product.itemNumber": "ayant le numéro d'article {{productNumber}}",
   },
   it: {
@@ -166,7 +166,7 @@ export const translations: Record<string, Record<string, string>> = {
       "L'organismo notificato \"{{bodyName}} (n. {{bodyNumber}})\" ha effettuato l'esame UE del tipo (Module B) e rilasciato il certificato di esame UE del tipo \"{{certificateNo}}\". Il DPI è soggetto alla procedura di valutazione della conformità basata sulla garanzia della qualità del processo di produzione (Module D) sotto la sorveglianza dell'organismo notificato \"{{bodyName}} (n. {{bodyNumber}})\".",
     "notified.other":
       "L'organismo notificato \"{{bodyName}} (n. {{bodyNumber}})\" ha effettuato l'esame UE del tipo ({{moduleType}}) e rilasciato il certificato di esame UE del tipo \"{{certificateNo}}\".",
-    "product.safety.manager": "Responsabile Sicurezza Prodotto",
+    "product.manager": "Responsabile Prodotto",
     "product.itemNumber": "con numero articolo {{productNumber}}",
   },
   nl: {
@@ -183,7 +183,7 @@ export const translations: Record<string, Record<string, string>> = {
       "De aangewezen instantie \"{{bodyName}} (nr. {{bodyNumber}})\" heeft de EU-typekeuring (Module B) uitgevoerd en het EU-typekeuringscertificaat \"{{certificateNo}}\" afgegeven. Het PBM is onderworpen aan de conformiteitsbeoordelingsprocedure op basis van kwaliteitsborging van het productieproces (Module D) onder toezicht van de aangewezen instantie \"{{bodyName}} (nr. {{bodyNumber}})\".",
     "notified.other":
       "De aangewezen instantie \"{{bodyName}} (nr. {{bodyNumber}})\" heeft de EU-typekeuring ({{moduleType}}) uitgevoerd en het EU-typekeuringscertificaat \"{{certificateNo}}\" afgegeven.",
-    "product.safety.manager": "Manager Productveiligheid",
+    "product.manager": "Productmanager",
     "product.itemNumber": "met artikelnummer {{productNumber}}",
   },
   pt: {
@@ -200,7 +200,7 @@ export const translations: Record<string, Record<string, string>> = {
       "O organismo notificado \"{{bodyName}} (n.º {{bodyNumber}})\" efetuou o exame UE de tipo (Module B) e emitiu o certificado de exame UE de tipo \"{{certificateNo}}\". O EPI está sujeito ao procedimento de avaliação da conformidade baseado na garantia da qualidade do processo de produção (Module D), sob a supervisão do organismo notificado \"{{bodyName}} (n.º {{bodyNumber}})\".",
     "notified.other":
       "O organismo notificado \"{{bodyName}} (n.º {{bodyNumber}})\" efetuou o exame UE de tipo ({{moduleType}}) e emitiu o certificado de exame UE de tipo \"{{certificateNo}}\".",
-    "product.safety.manager": "Responsável pela Segurança do Produto",
+    "product.manager": "Responsável pelo Produto",
     "product.itemNumber": "com número de artigo {{productNumber}}",
   },
   lv: {
@@ -217,7 +217,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Norādītā iestāde \"{{bodyName}} (Nr. {{bodyNumber}})\" veica ES tipa pārbaudi (Module B) un izdeva ES tipa pārbaudes sertifikātu \"{{certificateNo}}\". IAL ir pakļauts atbilstības novērtēšanas procedūrai, kas balstīta uz ražošanas procesa kvalitātes nodrošināšanu (Module D) norādītās iestādes \"{{bodyName}} (Nr. {{bodyNumber}})\" uzraudzībā.",
     "notified.other":
       "Norādītā iestāde \"{{bodyName}} (Nr. {{bodyNumber}})\" veica ES tipa pārbaudi ({{moduleType}}) un izdeva ES tipa pārbaudes sertifikātu \"{{certificateNo}}\".",
-    "product.safety.manager": "Produkta drošības vadītājs",
+    "product.manager": "Produkta vadītājs",
     "product.itemNumber": "ar artikula numuru {{productNumber}}",
   },
   is: {
@@ -234,7 +234,7 @@ export const translations: Record<string, Record<string, string>> = {
       'Tilkynnti aðilinn "{{bodyName}} (nr. {{bodyNumber}})" framkvæmdi ESB gerðarprófun (Module B) og gaf út ESB gerðarprófunarvottorð "{{certificateNo}}". PPE er háð samræmismatsferli sem byggir á gæðaöryggi framleiðsluferlisins (Module D) undir eftirliti tilkynnta aðilans "{{bodyName}} (nr. {{bodyNumber}})".',
     "notified.other":
       'Tilkynnti aðilinn "{{bodyName}} (nr. {{bodyNumber}})" framkvæmdi ESB gerðarprófun ({{moduleType}}) og gaf út ESB gerðarprófunarvottorð "{{certificateNo}}".',
-    "product.safety.manager": "Vörutryggingarstjóri",
+    "product.manager": "Vörustjóri",
     "product.itemNumber": "með vörunúmeri {{productNumber}}",
   },
   es: {
@@ -251,7 +251,7 @@ export const translations: Record<string, Record<string, string>> = {
       'El organismo notificado "{{bodyName}} (nº {{bodyNumber}})" realizó el examen UE de tipo (Module B) y emitió el certificado de examen UE de tipo "{{certificateNo}}". El EPP está sujeto al procedimiento de evaluación de la conformidad basado en la garantía de calidad del proceso de producción (Module D) bajo la supervisión del organismo notificado "{{bodyName}} (nº {{bodyNumber}})".',
     "notified.other":
       'El organismo notificado "{{bodyName}} (nº {{bodyNumber}})" realizó el examen UE de tipo ({{moduleType}}) y emitió el certificado de examen UE de tipo "{{certificateNo}}".',
-    "product.safety.manager": "Responsable de Seguridad del Producto",
+    "product.manager": "Responsable del Producto",
     "product.itemNumber": "con número de artículo {{productNumber}}",
   },
   sk: {
@@ -268,7 +268,7 @@ export const translations: Record<string, Record<string, string>> = {
       'Notifikovaný orgán "{{bodyName}} (č. {{bodyNumber}})" vykonal posúdenie typu EÚ (Module B) a vydal certifikát EÚ o preskúšaní typu "{{certificateNo}}". OOP podlieha postupu posudzovania zhody založenému na zabezpečení kvality výrobného procesu (Module D) pod dohľadom notifikovaného orgánu "{{bodyName}} (č. {{bodyNumber}})".',
     "notified.other":
       'Notifikovaný orgán "{{bodyName}} (č. {{bodyNumber}})" vykonal posúdenie typu EÚ ({{moduleType}}) a vydal certifikát EÚ o preskúšaní typu "{{certificateNo}}".',
-    "product.safety.manager": "Manažér bezpečnosti produktu",
+    "product.manager": "Produktový manažér",
     "product.itemNumber": "s číslom položky {{productNumber}}",
   },
   sl: {
@@ -285,7 +285,7 @@ export const translations: Record<string, Record<string, string>> = {
       'Priglašeni organ "{{bodyName}} (št. {{bodyNumber}})" je izvedel EU pregled tipa (Module B) in izdal certifikat EU o pregledu tipa "{{certificateNo}}". OVO je predmet postopka ugotavljanja skladnosti na podlagi zagotavljanja kakovosti proizvodnega procesa (Module D) pod nadzorom priglašenega organa "{{bodyName}} (št. {{bodyNumber}})".',
     "notified.other":
       'Priglašeni organ "{{bodyName}} (št. {{bodyNumber}})" je izvedel EU pregled tipa ({{moduleType}}) in izdal certifikat EU o pregledu tipa "{{certificateNo}}".',
-    "product.safety.manager": "Vodja varnosti izdelka",
+    "product.manager": "Vodja izdelka",
     "product.itemNumber": "s številko artikla {{productNumber}}",
   },
   cs: {
@@ -302,7 +302,7 @@ export const translations: Record<string, Record<string, string>> = {
       'Oznámený subjekt "{{bodyName}} (č. {{bodyNumber}})" provedl posouzení typu EU (Module B) a vydal certifikát EU o přezkoušení typu "{{certificateNo}}". OOP podléhají postupu posuzování shody založenému na zajištění kvality výrobního procesu (Module D) pod dohledem oznámeného subjektu "{{bodyName}} (č. {{bodyNumber}})".',
     "notified.other":
       'Oznámený subjekt "{{bodyName}} (č. {{bodyNumber}})" provedl posouzení typu EU ({{moduleType}}) a vydal certifikát EU o přezkoušení typu "{{certificateNo}}".',
-    "product.safety.manager": "Manažer bezpečnosti produktu",
+    "product.manager": "Produktový manažer",
     "product.itemNumber": "s číslem položky {{productNumber}}",
   },
   hu: {
@@ -319,7 +319,7 @@ export const translations: Record<string, Record<string, string>> = {
       'A bejelentett szervezet "{{bodyName}} (sz. {{bodyNumber}})" elvégezte az EU-típusvizsgálatot (Module B) és kiadta az EU-típusvizsgálati tanúsítványt "{{certificateNo}}". Az EVE megfelelőségértékelési eljárásnak van alávetve, amely a gyártási folyamat minőségbiztosításán alapul (Module D) a bejelentett szervezet "{{bodyName}} (sz. {{bodyNumber}})" felügyelete mellett.',
     "notified.other":
       'A bejelentett szervezet "{{bodyName}} (sz. {{bodyNumber}})" elvégezte az EU-típusvizsgálatot ({{moduleType}}) és kiadta az EU-típusvizsgálati tanúsítványt "{{certificateNo}}".',
-    "product.safety.manager": "Termékbiztonsági vezető",
+    "product.manager": "Termékmenedzser",
     "product.itemNumber": "cikkszáma {{productNumber}}",
   },
   lt: {
@@ -336,7 +336,7 @@ export const translations: Record<string, Record<string, string>> = {
       'Notifikuotoji įstaiga "{{bodyName}} (Nr. {{bodyNumber}})" atliko ES tipo tyrimą (Module B) ir išdavė ES tipo tyrimo sertifikatą "{{certificateNo}}". AAP taikoma atitikties vertinimo procedūra, pagrįsta gamybos proceso kokybės užtikrinimu (Module D) prižiūrint notifikuotajai įstaigai "{{bodyName}} (Nr. {{bodyNumber}})".',
     "notified.other":
       'Notifikuotoji įstaiga "{{bodyName}} (Nr. {{bodyNumber}})" atliko ES tipo tyrimą ({{moduleType}}) ir išdavė ES tipo tyrimo sertifikatą "{{certificateNo}}".',
-    "product.safety.manager": "Produkto saugos vadovas",
+    "product.manager": "Produkto vadovas",
     "product.itemNumber": "su gaminio numeriu {{productNumber}}",
   },
   el: {
@@ -353,7 +353,7 @@ export const translations: Record<string, Record<string, string>> = {
       'Ο κοινοποιημένος οργανισμός "{{bodyName}} (αρ. {{bodyNumber}})" διενήργησε εξέταση τύπου ΕΕ (Module B) και εξέδωσε το πιστοποιητικό εξέτασης τύπου ΕΕ "{{certificateNo}}". Ο ΜΑΠ υπόκειται στη διαδικασία αξιολόγησης συμμόρφωσης βάσει διασφάλισης ποιότητας της διαδικασίας παραγωγής (Module D) υπό την εποπτεία του κοινοποιημένου οργανισμού "{{bodyName}} (αρ. {{bodyNumber}})".',
     "notified.other":
       'Ο κοινοποιημένος οργανισμός "{{bodyName}} (αρ. {{bodyNumber}})" διενήργησε εξέταση τύπου ΕΕ ({{moduleType}}) και εξέδωσε το πιστοποιητικό εξέτασης τύπου ΕΕ "{{certificateNo}}".',
-    "product.safety.manager": "Υπεύθυνος Ασφάλειας Προϊόντος",
+    "product.manager": "Υπεύθυνος Προϊόντος",
     "product.itemNumber": "με αριθμό προϊόντος {{productNumber}}",
   },
   hr: {
@@ -370,7 +370,7 @@ export const translations: Record<string, Record<string, string>> = {
       'Prijavljeno tijelo "{{bodyName}} (br. {{bodyNumber}})" provelo je EU ispitivanje tipa (Module B) i izdalo EU certifikat o ispitivanju tipa "{{certificateNo}}". OZO podliježe postupku ocjenjivanja sukladnosti na temelju osiguranja kvalitete proizvodnog procesa (Module D) pod nadzorom prijavljenog tijela "{{bodyName}} (br. {{bodyNumber}})".',
     "notified.other":
       'Prijavljeno tijelo "{{bodyName}} (br. {{bodyNumber}})" provelo je EU ispitivanje tipa ({{moduleType}}) i izdalo EU certifikat o ispitivanju tipa "{{certificateNo}}".',
-    "product.safety.manager": "Voditelj sigurnosti proizvoda",
+    "product.manager": "Voditelj proizvoda",
     "product.itemNumber": "s brojem artikla {{productNumber}}",
   },
 };

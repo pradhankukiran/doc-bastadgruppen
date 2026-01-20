@@ -5,8 +5,6 @@ import { ArrowLeft, Download } from "lucide-react";
 import { pdf } from "@react-pdf/renderer";
 import DocPdfTemplate from "./components/DocPdfTemplate";
 import { DeclarationFormData } from "./types";
-// Add JSZip import - Will need to install this package
-import JSZip from "jszip";
 
 // Map display language names to ISO codes used in translations.ts
 const LANG_NAME_TO_CODE: Record<string, string> = {
@@ -104,7 +102,7 @@ function PreviewPage() {
 
         try {
           const blob = await pdf(
-            <DocPdfTemplate formData={formData} language={langCode} />
+            <DocPdfTemplate formData={formData} languages={[langCode]} />
           ).toBlob();
           const blobUrl = URL.createObjectURL(blob);
           revoked.push(blobUrl);
@@ -183,61 +181,32 @@ function PreviewPage() {
     }, TRANSITION_DURATION_MS);
   };
 
-  // Helper to download all PDFs
+  // Helper to download all PDFs as a single combined PDF
   const downloadAll = async () => {
-    const completedPdfs = languageStates.filter(
-      (state) => state.state === "completed" && state.pdfData
-    );
-    
-    if (completedPdfs.length === 0) return;
-    
     try {
-      // Create a new zip instance
-      const zip = new JSZip();
-      
-      // Add each PDF to the zip
-      const fetchPromises = completedPdfs.map(async ({ pdfData }) => {
-        if (!pdfData) return;
-        
-        // Fetch the PDF data
-        const response = await fetch(pdfData.blobUrl);
-        const pdfBlob = await response.blob();
-        
-        // Add the PDF to the zip with a language-specific name
-        const filename = `DoC_${formData.productInfo.name}_${pdfData.lang}.pdf`;
-        zip.file(filename, pdfBlob);
-      });
-      
-      // Wait for all PDFs to be added to the zip
-      await Promise.all(fetchPromises);
-      
-      // Generate the zip file
-      const zipContent = await zip.generateAsync({ type: "blob" });
-      
-      // Create a download link for the zip file
-      const zipUrl = URL.createObjectURL(zipContent);
+      // Get all language codes
+      const allLangCodes = formData.selectedLanguages.map(
+        (lang) => LANG_NAME_TO_CODE[lang] || "en"
+      );
+
+      // Generate a single PDF with all languages
+      const blob = await pdf(
+        <DocPdfTemplate formData={formData} languages={allLangCodes} />
+      ).toBlob();
+
+      // Create a download link
+      const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.href = zipUrl;
-      link.download = `DoC_${formData.productInfo.name}.zip`;
+      link.href = url;
+      link.download = `DoC_${formData.productInfo.name}_all.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       // Clean up the URL object
-      setTimeout(() => URL.revokeObjectURL(zipUrl), 100);
+      setTimeout(() => URL.revokeObjectURL(url), 100);
     } catch (error) {
-      console.error("Error creating zip file:", error);
-      // Fallback to individual downloads if zip creation fails
-      completedPdfs.forEach(({ pdfData }) => {
-        if (pdfData) {
-          const link = document.createElement("a");
-          link.href = pdfData.blobUrl;
-          link.download = `DoC_${formData.productInfo.name}_${pdfData.lang}.pdf`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-      });
+      console.error("Error creating combined PDF:", error);
     }
   };
   
