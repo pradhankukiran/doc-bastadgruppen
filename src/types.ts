@@ -1,4 +1,5 @@
 export interface DeclarationFormData {
+  docType?: "product" | "packaging";
   selectedLanguages: string[];
   productInfo: {
     name: string;
@@ -21,5 +22,9 @@ export interface DeclarationFormData {
   complianceInfo: {
     euLegislation: string[];
     harmonisedStandards: string[];
+    additionalInfo?: string;
   };
+  signerName?: string;
+  signerFunction?: string;
 }
+

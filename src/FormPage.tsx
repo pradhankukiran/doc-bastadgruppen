@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import CompanyLogo from "/Bastadgruppen_Logotyp_Svart_RGB.svg";
 import { ArrowRight, ArrowLeft, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -35,6 +34,7 @@ const brands = [
   { name: "Monitor", logo: "/Monitor.svg" },
   { name: "Top Swede", logo: "/Top_Swede.svg" },
   { name: "South West", logo: "/South_West.svg" },
+  { name: "Båstadgruppen", logo: "/Bastadgruppen_Logotyp_Svart_RGB.svg" },
 ];
 
 const notifiedBodies = [
@@ -92,14 +92,6 @@ const notifiedBodies = [
 const categoryClasses = ["Class I", "Class II", "Class III"];
 const moduleTypes = ["Module C2", "Module D"];
 
-const steps = [
-  "Select Languages",
-  "Enter Product Information",
-  "Configure Manufacturer Details",
-  "Add Notifed Body",
-  "Input Compliance Information",
-];
-
 function FormPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -134,6 +126,18 @@ function FormPage() {
   const [selected, setSelected] = useState<string[]>(
     savedState?.selected || []
   );
+  const [docType, setDocType] = useState<"product" | "packaging">(
+    savedState?.docType || "product"
+  );
+
+  const steps = [
+    "Select Languages",
+    "Select Document Type",
+    docType === "packaging" ? "Enter Packaging Information" : "Enter Product Information",
+    "Configure Manufacturer Details",
+    docType === "packaging" ? "Add Institute / Notified Body" : "Add Notified Body",
+    "Input Compliance Information",
+  ];
   const [productInfo, setProductInfo] = useState<{
     name: string;
     productNumber: string;
@@ -152,10 +156,12 @@ function FormPage() {
   const [complianceInfo, setComplianceInfo] = useState<{
     euLegislation: string[];
     harmonisedStandards: string[];
+    additionalInfo?: string;
   }>(
     savedState?.complianceInfo || {
       euLegislation: [],
       harmonisedStandards: [],
+      additionalInfo: "",
     }
   );
   const [currentLegislation, setCurrentLegislation] = useState("");
@@ -166,6 +172,12 @@ function FormPage() {
   const [selectedNotifiedBodies, setSelectedNotifiedBodies] = useState<string>(
     savedState?.selectedNotifiedBodies || ""
   );
+  const [signerName, setSignerName] = useState<string>(
+    savedState?.signerName || ""
+  );
+  const [signerFunction, setSignerFunction] = useState<string>(
+    savedState?.signerFunction || ""
+  );
   const initialStep = (location.state as any)?.resetForm
     ? 0
     : savedState?.step || 0;
@@ -173,11 +185,14 @@ function FormPage() {
 
   useEffect(() => {
     const stateToSave = {
+      docType,
       selected,
       productInfo,
       complianceInfo,
       selectedBrands,
       selectedNotifiedBodies,
+      signerName,
+      signerFunction,
       step: step,
     };
     try {
@@ -187,11 +202,14 @@ function FormPage() {
       // Ignore write errors
     }
   }, [
+    docType,
     selected,
     productInfo,
     complianceInfo,
     selectedBrands,
     selectedNotifiedBodies,
+    signerName,
+    signerFunction,
     step,
   ]);
 
@@ -208,42 +226,59 @@ function FormPage() {
       case 0:
         return selected.length > 0;
       case 1:
-        if (
-          !productInfo.name ||
-          !productInfo.productNumber ||
-          !productInfo.categoryClass
-        ) {
-          return false;
-        }
-        if (
-          (productInfo.categoryClass === "Class II" ||
-            productInfo.categoryClass === "Class III") &&
-          !productInfo.certificateNo
-        ) {
-          return false;
-        }
-        if (
-          productInfo.categoryClass === "Class III" &&
-          !productInfo.moduleType
-        ) {
-          return false;
-        }
-        return true;
+        return docType === "product" || docType === "packaging";
       case 2:
-        return selectedBrands !== "";
-      case 3:
-        // Skip validation for Notified Body step if Category Class is "Class I"
-        if (productInfo.categoryClass === "Class I") {
+        if (docType === "product") {
+          if (
+            !productInfo.name ||
+            !productInfo.productNumber ||
+            !productInfo.categoryClass
+          ) {
+            return false;
+          }
+          if (
+            (productInfo.categoryClass === "Class II" ||
+              productInfo.categoryClass === "Class III") &&
+            !productInfo.certificateNo
+          ) {
+            return false;
+          }
+          if (
+            productInfo.categoryClass === "Class III" &&
+            !productInfo.moduleType
+          ) {
+            return false;
+          }
           return true;
+        } else {
+          return !!productInfo.name && !!productInfo.productNumber;
         }
-        return selectedNotifiedBodies !== "";
+      case 3:
+        return selectedBrands !== "";
       case 4:
-        return (
-          complianceInfo.euLegislation.length > 0 &&
-          complianceInfo.harmonisedStandards.length > 0 &&
-          currentLegislation.trim() === "" &&
-          currentStandard.trim() === ""
-        );
+        if (docType === "product") {
+          if (productInfo.categoryClass === "Class I") {
+            return true;
+          }
+          return selectedNotifiedBodies !== "";
+        } else {
+          return true; // Optional for packaging
+        }
+      case 5:
+        if (docType === "product") {
+          return (
+            complianceInfo.euLegislation.length > 0 &&
+            complianceInfo.harmonisedStandards.length > 0 &&
+            currentLegislation.trim() === "" &&
+            currentStandard.trim() === ""
+          );
+        } else {
+          return (
+            complianceInfo.euLegislation.length > 0 &&
+            currentLegislation.trim() === "" &&
+            currentStandard.trim() === ""
+          );
+        }
       default:
         return false;
     }
@@ -266,12 +301,15 @@ function FormPage() {
       : undefined;
 
     const formData = {
+      docType,
       selectedLanguages: selected,
       productInfo,
       selectedBrands,
       selectedBrandDetails,
       selectedBodyDetails,
       complianceInfo,
+      signerName,
+      signerFunction,
       companyLogoUrl: "", // This is unused by the template but kept for compatibility with DocPdf
     };
 
@@ -291,7 +329,32 @@ function FormPage() {
   };
 
   const toggleBrand = (brandName: string) => {
-    setSelectedBrands((prev) => (prev === brandName ? "" : brandName));
+    setSelectedBrands((prev) => {
+      const newVal = prev === brandName ? "" : brandName;
+      if (newVal === "Guardio") {
+        setSignerName("Nawar Toma");
+        setSignerFunction("Product Manager");
+      } else if (newVal === "Monitor") {
+        setSignerName("Ove Nilsson");
+        setSignerFunction("Product Manager");
+      } else if (newVal === "Matterhorn") {
+        setSignerName("Catrin Ogenvall");
+        setSignerFunction("Product Manager");
+      } else if (newVal === "Top Swede") {
+        setSignerName("Kristin Hallbäck");
+        setSignerFunction("Product Manager");
+      } else if (newVal === "South West") {
+        setSignerName("Helena Rydberg");
+        setSignerFunction("Product Manager");
+      } else if (newVal === "Båstadgruppen") {
+        setSignerName("");
+        setSignerFunction("");
+      } else {
+        setSignerName("");
+        setSignerFunction("");
+      }
+      return newVal;
+    });
   };
 
   const toggleNotifiedBody = (bodyId: string) => {
@@ -346,9 +409,9 @@ function FormPage() {
   const handleNext = () => {
     if (step < steps.length - 1) {
       let nextStep = step + 1;
-      // Skip Notified Body step (step 3) if Category Class is "Class I"
-      if (nextStep === 3 && productInfo.categoryClass === "Class I") {
-        nextStep = 4;
+      // Skip Notified Body step (step 4) if it is a product and Category Class is "Class I"
+      if (nextStep === 4 && docType === "product" && productInfo.categoryClass === "Class I") {
+        nextStep = 5;
       }
       setStep([nextStep, 1]);
     }
@@ -357,9 +420,9 @@ function FormPage() {
   const handleBack = () => {
     if (step > 0) {
       let prevStep = step - 1;
-      // Skip Notified Body step (step 3) when going back if Category Class is "Class I"
-      if (prevStep === 3 && productInfo.categoryClass === "Class I") {
-        prevStep = 2;
+      // Skip Notified Body step (step 4) when going back if it is a product and Category Class is "Class I"
+      if (prevStep === 4 && docType === "product" && productInfo.categoryClass === "Class I") {
+        prevStep = 3;
       }
       setStep([prevStep, -1]);
     }
@@ -367,7 +430,7 @@ function FormPage() {
 
   const renderStepContent = () => {
     switch (step) {
-      case 0:
+      case 0: {
         const numSelected = selected.length;
         const selectionText =
           numSelected === 0
@@ -423,158 +486,253 @@ function FormPage() {
             </div>
           </>
         );
-      case 1:
+      }
+      case 1: // Document Type Step
         return (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex-1">
-                <label
-                  className="block text-sm font-medium mb-1 text-brand-primary"
-                  htmlFor="productName"
-                >
-                  Product Name
-                </label>
-                <input
-                  id="productName"
-                  type="text"
-                  value={productInfo.name}
-                  onChange={(e) =>
-                    setProductInfo({ ...productInfo, name: e.target.value })
-                  }
-                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
-                />
-              </div>
-              <div className="flex-1">
-                <label
-                  className="block text-sm font-medium mb-1 text-brand-primary"
-                  htmlFor="productNumber"
-                >
-                  Product Number
-                </label>
-                <input
-                  id="productNumber"
-                  type="text"
-                  value={productInfo.productNumber}
-                  onChange={(e) =>
-                    setProductInfo({
-                      ...productInfo,
-                      productNumber: e.target.value,
-                    })
-                  }
-                  placeholder="Enter a product number"
-                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
-                />
-              </div>
-            </div>
-
-            {/* Category Class Row */}
-            <div>
-              <label className="block text-sm font-medium mb-1 text-brand-primary">
-                Category Class
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto my-8">
+            <div className="relative">
+              <input
+                type="radio"
+                id="docType-product"
+                name="docType"
+                value="product"
+                checked={docType === "product"}
+                onChange={() => setDocType("product")}
+                className="peer absolute opacity-0 h-0 w-0"
+              />
+              <label
+                htmlFor="docType-product"
+                className="cursor-pointer flex flex-col items-center justify-center text-center p-8 border-2 border-brand-background-dark rounded-md text-brand-primary transition-all duration-250 ease-corporate hover:shadow-card hover:border-brand-secondary peer-checked:shadow-card peer-checked:border-brand-primary peer-checked:bg-brand-primary peer-checked:text-white h-full"
+              >
+                <span className="text-xl font-bold mb-2">Product (PPE)</span>
+                <span className="text-sm opacity-80">
+                  EU Declaration of Conformity for Personal Protective Equipment (PPE)
+                </span>
               </label>
-              <div className="flex flex-wrap gap-4">
-                {categoryClasses.map((category) => (
-                  <div key={category} className="relative">
-                    <input
-                      type="radio"
-                      id={`category-${category}`}
-                      name="categoryClass"
-                      value={category}
-                      checked={productInfo.categoryClass === category}
-                      onChange={(e) => {
-                        const newCategoryClass = e.target.value;
-                        setProductInfo((prev) => ({
-                          ...prev,
-                          categoryClass: newCategoryClass,
-                          certificateNo:
-                            newCategoryClass === "Class I"
-                              ? ""
-                              : prev.certificateNo,
-                          moduleType:
-                            newCategoryClass === "Class III"
-                              ? prev.moduleType
-                              : "",
-                        }));
-                      }}
-                      className="peer absolute opacity-0 h-0 w-0"
-                    />
-                    <label
-                      htmlFor={`category-${category}`}
-                      className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
-                    >
-                      {category}
-                    </label>
-                  </div>
-                ))}
-              </div>
             </div>
 
-            {/* Certificate Row (shown for Class II & III) */}
-            {(productInfo.categoryClass === "Class II" ||
-              productInfo.categoryClass === "Class III") && (
-              <div>
-                <label
-                  className="block text-sm font-medium mb-1 text-brand-primary"
-                  htmlFor="certificateNo"
-                >
-                  Certificate No.
-                </label>
-                <input
-                  id="certificateNo"
-                  type="text"
-                  value={productInfo.certificateNo}
-                  onChange={(e) =>
-                    setProductInfo({
-                      ...productInfo,
-                      certificateNo: e.target.value,
-                    })
-                  }
-                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
-                />
+            <div className="relative">
+              <input
+                type="radio"
+                id="docType-packaging"
+                name="docType"
+                value="packaging"
+                checked={docType === "packaging"}
+                onChange={() => setDocType("packaging")}
+                className="peer absolute opacity-0 h-0 w-0"
+              />
+              <label
+                htmlFor="docType-packaging"
+                className="cursor-pointer flex flex-col items-center justify-center text-center p-8 border-2 border-brand-background-dark rounded-md text-brand-primary transition-all duration-250 ease-corporate hover:shadow-card hover:border-brand-secondary peer-checked:shadow-card peer-checked:border-brand-primary peer-checked:bg-brand-primary peer-checked:text-white h-full"
+              >
+                <span className="text-xl font-bold mb-2">Packaging (PPWR)</span>
+                <span className="text-sm opacity-80">
+                  EU Declaration of Conformity for Packaging and Packaging Waste (PPWR)
+                </span>
+              </label>
+            </div>
+          </div>
+        );
+      case 2: // Enter Details Step
+        if (docType === "product") {
+          return (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex-1">
+                  <label
+                    className="block text-sm font-medium mb-1 text-brand-primary"
+                    htmlFor="productName"
+                  >
+                    Product Name
+                  </label>
+                  <input
+                    id="productName"
+                    type="text"
+                    value={productInfo.name}
+                    onChange={(e) =>
+                      setProductInfo({ ...productInfo, name: e.target.value })
+                    }
+                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label
+                    className="block text-sm font-medium mb-1 text-brand-primary"
+                    htmlFor="productNumber"
+                  >
+                    Product Number
+                  </label>
+                  <input
+                    id="productNumber"
+                    type="text"
+                    value={productInfo.productNumber}
+                    onChange={(e) =>
+                      setProductInfo({
+                        ...productInfo,
+                        productNumber: e.target.value,
+                      })
+                    }
+                    placeholder="Enter a product number"
+                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                  />
+                </div>
               </div>
-            )}
 
-            {/* Module Type Row (shown for Class III) */}
-            {productInfo.categoryClass === "Class III" && (
+              {/* Category Class Row */}
               <div>
                 <label className="block text-sm font-medium mb-1 text-brand-primary">
-                  Module Type
+                  Category Class
                 </label>
                 <div className="flex flex-wrap gap-4">
-                  {moduleTypes.map((module) => (
-                    <div key={module} className="relative">
+                  {categoryClasses.map((category) => (
+                    <div key={category} className="relative">
                       <input
                         type="radio"
-                        id={`module-${module}`}
-                        name="moduleType"
-                        value={module}
-                        checked={productInfo.moduleType === module}
-                        onChange={(e) =>
-                          setProductInfo({
-                            ...productInfo,
-                            moduleType: e.target.value,
-                          })
-                        }
+                        id={`category-${category}`}
+                        name="categoryClass"
+                        value={category}
+                        checked={productInfo.categoryClass === category}
+                        onChange={(e) => {
+                          const newCategoryClass = e.target.value;
+                          setProductInfo((prev) => ({
+                            ...prev,
+                            categoryClass: newCategoryClass,
+                            certificateNo:
+                              newCategoryClass === "Class I"
+                                ? ""
+                                : prev.certificateNo,
+                            moduleType:
+                              newCategoryClass === "Class III"
+                                ? prev.moduleType
+                                : "",
+                          }));
+                        }}
                         className="peer absolute opacity-0 h-0 w-0"
                       />
                       <label
-                        htmlFor={`module-${module}`}
+                        htmlFor={`category-${category}`}
                         className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
                       >
-                        {module}
+                        {category}
                       </label>
                     </div>
                   ))}
                 </div>
               </div>
-            )}
-          </div>
-        );
-      case 2:
+
+              {/* Certificate Row (shown for Class II & III) */}
+              {(productInfo.categoryClass === "Class II" ||
+                productInfo.categoryClass === "Class III") && (
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-1 text-brand-primary"
+                    htmlFor="certificateNo"
+                  >
+                    Certificate No.
+                  </label>
+                  <input
+                    id="certificateNo"
+                    type="text"
+                    value={productInfo.certificateNo}
+                    onChange={(e) =>
+                      setProductInfo({
+                        ...productInfo,
+                        certificateNo: e.target.value,
+                      })
+                    }
+                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                  />
+                </div>
+              )}
+
+              {/* Module Type Row (shown for Class III) */}
+              {productInfo.categoryClass === "Class III" && (
+                <div>
+                  <label className="block text-sm font-medium mb-1 text-brand-primary">
+                    Module Type
+                  </label>
+                  <div className="flex flex-wrap gap-4">
+                    {moduleTypes.map((module) => (
+                      <div key={module} className="relative">
+                        <input
+                          type="radio"
+                          id={`module-${module}`}
+                          name="moduleType"
+                          value={module}
+                          checked={productInfo.moduleType === module}
+                          onChange={(e) =>
+                            setProductInfo({
+                              ...productInfo,
+                              moduleType: e.target.value,
+                            })
+                          }
+                          className="peer absolute opacity-0 h-0 w-0"
+                        />
+                        <label
+                          htmlFor={`module-${module}`}
+                          className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
+                        >
+                          {module}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        } else {
+          return (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex-1">
+                  <label
+                    className="block text-sm font-medium mb-1 text-brand-primary"
+                    htmlFor="productName"
+                  >
+                    Packaging Description (Object of the declaration)
+                  </label>
+                  <input
+                    id="productName"
+                    type="text"
+                    value={productInfo.name}
+                    onChange={(e) =>
+                      setProductInfo({ ...productInfo, name: e.target.value })
+                    }
+                    placeholder="e.g. Cardboard shipping box / Outer carton"
+                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label
+                    className="block text-sm font-medium mb-1 text-brand-primary"
+                    htmlFor="productNumber"
+                  >
+                    Unique Packaging Identification No.
+                  </label>
+                  <input
+                    id="productNumber"
+                    type="text"
+                    value={productInfo.productNumber}
+                    onChange={(e) =>
+                      setProductInfo({
+                        ...productInfo,
+                        productNumber: e.target.value,
+                      })
+                    }
+                    placeholder="e.g. PPWR-12345-BOX"
+                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                  />
+                </div>
+              </div>
+            </div>
+          );
+        }
+      case 3: // Manufacturer details & Dynamic brand/signer
         return (
           <div className="space-y-6">
             <div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {brands.map((brand) => (
                   <div key={brand.name}>
                     <div className="relative">
@@ -592,19 +750,55 @@ function FormPage() {
                         <img
                           src={brand.logo}
                           alt={brand.name}
-                          className="h-20 w-20 object-contain"
+                          className="h-16 w-16 object-contain"
                         />
                       </label>
                     </div>
-                    <p className="mt-2 text-sm font-medium text-center text-brand-primary">
+                    <p className="mt-2 text-xs font-medium text-center text-brand-primary">
                       {brand.name}
                     </p>
                   </div>
                 ))}
               </div>
             </div>
+
+            {/* Custom Signer details input fields */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-white/5 border border-white/10 rounded-lg">
+              <div>
+                <label
+                  className="block text-sm font-medium mb-1 text-brand-primary"
+                  htmlFor="signerName"
+                >
+                  Signer Name
+                </label>
+                <input
+                  id="signerName"
+                  type="text"
+                  value={signerName}
+                  onChange={(e) => setSignerName(e.target.value)}
+                  placeholder="e.g. Nawar Toma"
+                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                />
+              </div>
+              <div>
+                <label
+                  className="block text-sm font-medium mb-1 text-brand-primary"
+                  htmlFor="signerFunction"
+                >
+                  Signer Function / Title
+                </label>
+                <input
+                  id="signerFunction"
+                  type="text"
+                  value={signerFunction}
+                  onChange={(e) => setSignerFunction(e.target.value)}
+                  placeholder="e.g. Product Manager"
+                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                />
+              </div>
+            </div>
+
             <div>
-              {/* <h3 className="text-lg font-medium text-black mb-2">Manufacturer Address</h3> */}
               <div className="bg-brand-subtle p-4 rounded-md border-2 border-brand-background-dark text-brand-secondary">
                 <p className="font-semibold">Båstadgruppen AB</p>
                 <p>Fraktgatan 1</p>
@@ -614,15 +808,17 @@ function FormPage() {
             </div>
           </div>
         );
-      case 3:
+      case 4: {
         const selectedBody = notifiedBodies.find(
           (body) => body.id === selectedNotifiedBodies
         );
         return (
           <div className="space-y-4">
-            {/* <h3 className="text-lg font-medium text-black mb-4">
-              Select Notified Bodies
-            </h3> */}
+            {docType === "packaging" && (
+              <p className="text-sm text-brand-muted mb-4">
+                Note: For packaging declarations, adding a notified body or institute is optional. You can select one below if applicable, or click Next to skip.
+              </p>
+            )}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {notifiedBodies.map((body) => (
                 <div key={body.id} className="relative">
@@ -652,7 +848,8 @@ function FormPage() {
             )}
           </div>
         );
-      case 4:
+      }
+      case 5:
         return (
           <div className="space-y-6">
             {/* Relevant EU Legislation */}
@@ -675,7 +872,11 @@ function FormPage() {
                       handleAddLegislation();
                     }
                   }}
-                  placeholder="Enter EU Legislation"
+                  placeholder={
+                    docType === "packaging"
+                      ? "e.g. PPWR Regulation (EU) 2026/xxx"
+                      : "Enter EU Legislation"
+                  }
                   className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
                 />
                 <button
@@ -718,7 +919,7 @@ function FormPage() {
                 className="block text-sm font-medium mb-1 text-brand-primary"
                 htmlFor="harmonisedStandards"
               >
-                Harmonised Standards
+                Harmonised Standards {docType === "packaging" && "(Optional)"}
               </label>
               <div className="flex items-center gap-2">
                 <input
@@ -768,6 +969,31 @@ function FormPage() {
                 </div>
               )}
             </div>
+
+            {/* Additional Information (Point 8 for PPWR) */}
+            {docType === "packaging" && (
+              <div>
+                <label
+                  className="block text-sm font-medium mb-1 text-brand-primary"
+                  htmlFor="additionalInfo"
+                >
+                  Additional Information (Optional)
+                </label>
+                <textarea
+                  id="additionalInfo"
+                  value={complianceInfo.additionalInfo || ""}
+                  onChange={(e) =>
+                    setComplianceInfo({
+                      ...complianceInfo,
+                      additionalInfo: e.target.value,
+                    })
+                  }
+                  placeholder="Enter any additional details, place and date of issue details, packaging materials description, etc."
+                  rows={4}
+                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250 resize-y"
+                />
+              </div>
+            )}
           </div>
         );
       default:
@@ -793,14 +1019,7 @@ function FormPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-brand-background-light to-brand-background-DEFAULT text-brand-primary font-sans relative animate-fade-in">
-      {/* Top-right company logo */}
-      <img
-        src={CompanyLogo}
-        alt="Company Logo"
-        className="absolute top-4 right-4 h-[30px] sm:h-[50px] w-auto"
-      />
-
+    <div className="animate-fade-in">
       <main className="relative z-10 px-6 pt-20 pb-10 sm:pt-12 sm:pb-26">
         <div
           className={`mx-auto transition-all duration-500 ease-in-out max-w-3xl select-none`}

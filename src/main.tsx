@@ -4,14 +4,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App.tsx";
 import FormPage from "./FormPage.tsx";
 import PreviewPage from "./PreviewPage.tsx";
+import Layout from "./components/Layout.tsx";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/form" element={<FormPage />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<App />} />
+          <Route path="/form" element={<FormPage />} />
+        </Route>
         <Route path="/preview" element={<PreviewPage />} />
       </Routes>
     </BrowserRouter>

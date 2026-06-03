@@ -15,6 +15,14 @@ export const translations: Record<string, Record<string, string>> = {
       'The notified body "{{bodyName}} (No {{bodyNumber}})" performed the EU type-examination ({{moduleType}}) and issued the EU type-examination certificate "{{certificateNo}}".',
     "product.manager": "Product Manager",
     "product.itemNumber": "with item number {{productNumber}}",
+    "declares.packaging":
+      "Object of the declaration (description of the packaging allowing traceability):",
+    "conformity.statement.packaging":
+      "The object of the declaration described above is in conformity with the relevant Union harmonisation legislation: {{euLegislation}}",
+    "product.itemNumber.packaging":
+      "with identification number {{productNumber}}",
+    "notified.other.packaging":
+      'Where applicable, the notified body "{{bodyName}} (No {{bodyNumber}})" performed examination and issued the certificate "{{certificateNo}}".',
   },
   sv: {
     "title.declaration": "EU-försäkran om överensstämmelse",
@@ -23,7 +31,7 @@ export const translations: Record<string, Record<string, string>> = {
     "declares.ppe":
       "Tillverkaren försäkrar härmed att den nedan beskrivna personliga skyddsutrustningen (PSA):",
     "conformity.statement":
-      "överensstämmer med tillämplig unionsharmoniserad lagstiftning: {{euLegislation}} och uppfyller de väsentliga hälso- och säkerhetskrav som anges i bilaga II samt relevanta harmoniserade standarder eller andra tekniska specifikationer, nr :",
+      "överensstämmer med tillämplig unionsharmoniserad lagstiftning: {{euLegislation}} och uppfyller de väsentliga hälso- och säkerhetskrav som anges i bilaga II samt relevanta harmoniserade standarder eller andra tekniske specifikationer, nr :",
     "notified.moduleC2":
       'Det anmälda organet "{{bodyName}} (nr {{bodyNumber}})" har utfört EU-typkontroll (Module B) och utfärdat EU-typkontrollintyg "{{certificateNo}}". PPE är föremål för bedömning av överensstämmelse baserad på intern produktionskontroll med övervakade stickprovskontroller (Module C2) under tillsyn av det anmälda organet "{{bodyName}} (nr {{bodyNumber}})".',
     "notified.moduleD":
@@ -32,6 +40,14 @@ export const translations: Record<string, Record<string, string>> = {
       'Det anmälda organet "{{bodyName}} (nr {{bodyNumber}})" har utfört EU-typkontroll ({{moduleType}}) och utfärdat EU-typkontrollintyg "{{certificateNo}}".',
     "product.manager": "Produktchef",
     "product.itemNumber": "med artikelnummer {{productNumber}}",
+    "declares.packaging":
+      "Föremålet för försäkran (beskrivning av förpackningen för spårbarhet):",
+    "conformity.statement.packaging":
+      "Föremålet för försäkran ovan överensstämmer med den relevanta unionslagstiftningen om harmonisering: {{euLegislation}}",
+    "product.itemNumber.packaging":
+      "med identifikationsnummer {{productNumber}}",
+    "notified.other.packaging":
+      'I tillämpliga fall har det anmälda organet "{{bodyName}} (nr {{bodyNumber}})" utfört granskning och utfärdat intyg "{{certificateNo}}".',
   },
   no: {
     "title.declaration": "EU-samsvarserklæring",
@@ -49,6 +65,14 @@ export const translations: Record<string, Record<string, string>> = {
       "Det meldte organet \"{{bodyName}} (nr. {{bodyNumber}})\" har utført EU-typeprøving ({{moduleType}}) og utstedt EU-typeprøvingssertifikat \"{{certificateNo}}\".",
     "product.manager": "Produktsjef",
     "product.itemNumber": "med artikkelnummer {{productNumber}}",
+    "declares.packaging":
+      "Formålet med erklæringen (beskrivelse av emballasjen for sporbarhet):",
+    "conformity.statement.packaging":
+      "Formålet med erklæringen beskrevet ovenfor er i samsvar med gjeldende unionsharmoniseringslovgivning: {{euLegislation}}",
+    "product.itemNumber.packaging":
+      "med identifikasjonsnummer {{productNumber}}",
+    "notified.other.packaging":
+      "Der det er aktuelt, har det meldte organet \"{{bodyName}} (nr. {{bodyNumber}})\" utført undersøkelse og utstedt sertifikatet \"{{certificateNo}}\".",
   },
   da: {
     "title.declaration": "EU-overensstemmelseserklæring",
@@ -66,6 +90,14 @@ export const translations: Record<string, Record<string, string>> = {
       "Det bemyndigede organ \"{{bodyName}} (nr. {{bodyNumber}})\" har udført EU-typeafprøvning ({{moduleType}}) og udstedt EU-typeafprøvningscertifikat \"{{certificateNo}}\".",
     "product.manager": "Produktchef",
     "product.itemNumber": "med artikelnummer {{productNumber}}",
+    "declares.packaging":
+      "Erklæringens genstand (beskrivelse af emballagen til sporbarhed):",
+    "conformity.statement.packaging":
+      "Genstanden for erklæringen, som beskrevet ovenfor, er i overensstemmelse med den relevante EU-harmoniseringslovgivning: {{euLegislation}}",
+    "product.itemNumber.packaging":
+      "med identifikationsnummer {{productNumber}}",
+    "notified.other.packaging":
+      "Hvor det er relevant, har det bemyndigede organ \"{{bodyName}} (nr. {{bodyNumber}})\" udført undersøgelse og udstedt certifikatet \"{{certificateNo}}\".",
   },
   fi: {
     "title.declaration": "EU-vaatimustenmukaisuusvakuutus",
@@ -83,6 +115,14 @@ export const translations: Record<string, Record<string, string>> = {
       "Ilmoitettu laitos \"{{bodyName}} (Nro {{bodyNumber}})\" on suorittanut EU-tyyppitarkastuksen ({{moduleType}}) ja myöntänyt EU-tyyppitarkastustodistuksen \"{{certificateNo}}\".",
     "product.manager": "Tuotepäällikkö",
     "product.itemNumber": "tuotenumerolla {{productNumber}}",
+    "declares.packaging":
+      "Vakuutuksen kohde (pakkauksen kuvaus jäljitettävyyden varmistamiseksi):",
+    "conformity.statement.packaging":
+      "Edellä kuvattu vakuutuksen kohde on asiaankuuluvan unionin yhdenmukaistuslainsäädännön vaatimusten mukainen: {{euLegislation}}",
+    "product.itemNumber.packaging":
+      "tunnistenumerolla {{productNumber}}",
+    "notified.other.packaging":
+      "Tarvittaessa ilmoitettu laitos \"{{bodyName}} (Nro {{bodyNumber}})\" suoritti tarkastuksen ja antoi todistuksen \"{{certificateNo}}\".",
   },
   pl: {
     "title.declaration": "Deklaracja zgodności UE",

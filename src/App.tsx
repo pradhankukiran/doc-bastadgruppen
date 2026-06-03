@@ -1,23 +1,12 @@
 import React from "react";
-import CompanyLogo from "/Bastadgruppen_Logotyp_Svart_RGB.svg";
-import { FileCheck, Shield, Zap, CheckCircle, ArrowRight } from "lucide-react";
+import { Shield, Zap, CheckCircle, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-brand-background-light to-brand-background-DEFAULT text-brand-primary font-sans overflow-x-hidden relative animate-fade-in">
-      {/* Top-right company logo */}
-      <img
-        src={CompanyLogo}
-        alt="Company Logo"
-        className="absolute top-4 right-4 h-[30px] md:h-[50px] w-auto"
-      />
-
-      {/* Optional subtle pattern (kept light grey) */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23999999%22 fill-opacity=%220.05%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%221%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
-
+    <div className="animate-fade-in">
       {/* Main Content */}
-      <main className="relative z-10 px-6 py-12">
+      <main className="px-6 py-12">
         <div className="max-w-7xl mx-auto">
           {/* Hero Section */}
           <div className="text-center mb-8 md:mb-12 mt-10 md:mt-16 animate-slide-up">

@@ -84,7 +84,9 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, languages }) => {
     "South West": "Helena Rydberg",
   };
 
-  const signerName = nameMap[formData.selectedBrands] || "";
+  const defaultSignerName = nameMap[formData.selectedBrands] || "";
+  const signerName = formData.signerName || defaultSignerName;
+  const showSignatureImage = signatureSrc && signerName === defaultSignerName;
 
   // Format current date as "dd mm yyyy"
   const formattedDate = new Date().toLocaleDateString("en-GB", {
@@ -102,272 +104,324 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, languages }) => {
 
   return (
     <Document title={`DoC_${finalProductInfo.name}`}>
-      {languages.map((language) => (
-        <Page
-          key={language}
-          size="A4"
-          style={{
-            fontSize: 10,
-            paddingTop: 80,
-            paddingBottom: 10,
-            paddingHorizontal: 60,
-            fontFamily: getFontFamily(language),
-            lineHeight: 1.5,
-          }}
-          wrap
-        >
-          <Image
-            src="/Bastadgruppen_Logotyp_Svart_RGB.jpg"
-            style={{ width: 130, position: "absolute", top: 40, right: 60 }}
-            fixed
-          />
-          {/* Title & Category */}
-          <View
+      {languages.map((language) => {
+        const defaultSignerFunction = t(language, "product.manager");
+        const signerFunction = formData.signerFunction || defaultSignerFunction;
+
+        return (
+          <Page
+            key={language}
+            size="A4"
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 10,
+              fontSize: 10,
+              paddingTop: 80,
+              paddingBottom: 10,
+              paddingHorizontal: 60,
+              fontFamily: getFontFamily(language),
+              lineHeight: 1.5,
             }}
+            wrap
           >
+            <Image
+              src="/Bastadgruppen_Logotyp_Svart_RGB.jpg"
+              style={{ width: 130, position: "absolute", top: 40, right: 60 }}
+              fixed
+            />
+            {/* Title & Category */}
             <View
               style={{
-                width: 15,
-                height: 30,
-                backgroundColor: "black",
-                marginRight: 7,
-                marginTop: -3,
+                flexDirection: "row",
+                alignItems: "center",
+                marginBottom: 10,
               }}
-            />
-            <View>
-              <Text
+            >
+              <View
                 style={{
-                  fontSize: 15,
-                  textAlign: "left",
-                  marginBottom: 9,
+                  width: 15,
+                  height: 30,
+                  backgroundColor: "black",
+                  marginRight: 7,
+                  marginTop: -3,
                 }}
-              >
-                {t(language, "title.declaration")}
-              </Text>
-              {finalProductInfo.categoryClass && (
+              />
+              <View>
                 <Text
                   style={{
-                    fontSize: 9,
+                    fontSize: 15,
                     textAlign: "left",
+                    marginBottom: 9,
                   }}
                 >
-                  {finalProductInfo.categoryClass === "Class II" ||
-                  finalProductInfo.categoryClass === "Class III"
-                    ? `${finalProductInfo.categoryClass.replace(
-                        "Class",
-                        "Category"
-                      )} - ${finalProductInfo.moduleType}`
-                    : finalProductInfo.categoryClass.replace("Class", "Category")}
+                  {t(language, "title.declaration")}
                 </Text>
-              )}
-            </View>
-          </View>
-
-          {/* Responsibility statement & manufacturer address */}
-          <View
-            style={{
-              marginBottom: 15,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 11,
-                marginBottom: 20,
-              }}
-            >
-              {t(language, "responsibility.statement")}
-            </Text>
-            <Text style={{ fontSize: 11 }}>Båstadgruppen AB</Text>
-            <Text style={{ fontSize: 11 }}>Fraktgatan 1</Text>
-            <Text style={{ fontSize: 11 }}>262 73 Ängelholm</Text>
-            <Text style={{ fontSize: 11 }}>Sweden</Text>
-          </View>
-          {/* Declaration statement */}
-          <View style={{ marginBottom: 10 }}>
-            <Text
-              style={{ fontSize: 11, textAlign: "center", paddingHorizontal: 70 }}
-            >
-              {t(language, "declares.ppe")}
-            </Text>
-          </View>
-
-          {/* Selected brand logo */}
-          {brandLogoSrc && (
-            <View style={{ marginBottom: 10, textAlign: "center" }}>
-              <Image
-                src={brandLogoSrc}
-                style={{ width: 100, alignSelf: "center" }}
-                fixed
-              />
-            </View>
-          )}
-
-          {/* Product information */}
-          <View style={{ marginBottom: 12, textAlign: "center" }}>
-            <Text style={{ fontSize: 15, marginBottom: 10 }}>
-              {finalProductInfo.name}
-            </Text>
-            <Text style={{ fontSize: 11 }}>
-              {t(language, "product.itemNumber", {
-                productNumber: finalProductInfo.productNumber,
-              })}
-            </Text>
-          </View>
-
-          {/* Legislation and Standards */}
-          <View style={{ marginBottom: 5 }}>
-            <Text
-              style={{
-                fontSize: 11,
-                marginBottom: 10,
-                textAlign: "justify",
-              }}
-            >
-              {t(language, "conformity.statement", {
-                euLegislation: complianceInfo.euLegislation.join(", "),
-              })}
-            </Text>
-            {complianceInfo.harmonisedStandards.map((std, idx) => (
-              <Text
-                key={idx}
-                style={{
-                  fontSize: 10,
-                  marginLeft: 12,
-                  marginBottom: 7,
-                }}
-              >
-                • {std}
-              </Text>
-            ))}
-          </View>
-
-          {/* Notified statement */}
-          {selectedBodyDetails &&
-            finalProductInfo.categoryClass !== "Class I" && (
-              <View style={{ marginBottom: 10 }}>
-                {finalProductInfo.categoryClass === "Class III" &&
-                finalProductInfo.moduleType === "Module C2" ? (
+                {formData.docType !== "packaging" && finalProductInfo.categoryClass && (
                   <Text
                     style={{
-                      fontSize: 11,
-                      textAlign: "justify",
-                      marginBottom: 10,
+                      fontSize: 9,
+                      textAlign: "left",
                     }}
                   >
-                    {t(language, "notified.moduleC2", {
-                      bodyName: selectedBodyDetails.name,
-                      bodyNumber: selectedBodyDetails.number,
-                      certificateNo: finalProductInfo.certificateNo,
-                    })}
-                  </Text>
-                ) : finalProductInfo.categoryClass === "Class III" &&
-                  finalProductInfo.moduleType === "Module D" ? (
-                  <Text
-                    style={{
-                      fontSize: 11,
-                      textAlign: "justify",
-                      marginBottom: 10,
-                    }}
-                  >
-                    {t(language, "notified.moduleD", {
-                      bodyName: selectedBodyDetails.name,
-                      bodyNumber: selectedBodyDetails.number,
-                      certificateNo: finalProductInfo.certificateNo,
-                    })}
-                  </Text>
-                ) : (
-                  <Text
-                    style={{
-                      fontSize: 11,
-                      textAlign: "justify",
-                      marginBottom: 10,
-                    }}
-                  >
-                    {t(language, "notified.other", {
-                      bodyName: selectedBodyDetails.name,
-                      bodyNumber: selectedBodyDetails.number,
-                      certificateNo: finalProductInfo.certificateNo,
-                      moduleType: finalProductInfo.moduleType,
-                    })}
+                    {finalProductInfo.categoryClass === "Class II" ||
+                    finalProductInfo.categoryClass === "Class III"
+                      ? `${finalProductInfo.categoryClass.replace(
+                          "Class",
+                          "Category"
+                        )} - ${finalProductInfo.moduleType}`
+                      : finalProductInfo.categoryClass.replace("Class", "Category")}
                   </Text>
                 )}
               </View>
+            </View>
+
+            {/* Responsibility statement & manufacturer address */}
+            <View
+              style={{
+                marginBottom: 15,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 11,
+                  marginBottom: 20,
+                }}
+              >
+                {t(language, "responsibility.statement")}
+              </Text>
+              <Text style={{ fontSize: 11 }}>Båstadgruppen AB</Text>
+              <Text style={{ fontSize: 11 }}>Fraktgatan 1</Text>
+              <Text style={{ fontSize: 11 }}>262 73 Ängelholm</Text>
+              <Text style={{ fontSize: 11 }}>Sweden</Text>
+            </View>
+            {/* Declaration statement */}
+            <View style={{ marginBottom: 10 }}>
+              <Text
+                style={{ fontSize: 11, textAlign: "center", paddingHorizontal: 70 }}
+              >
+                {formData.docType === "packaging"
+                  ? t(language, "declares.packaging")
+                  : t(language, "declares.ppe")}
+              </Text>
+            </View>
+
+            {/* Selected brand logo */}
+            {brandLogoSrc && (
+              <View style={{ marginBottom: 10, textAlign: "center" }}>
+                <Image
+                  src={brandLogoSrc}
+                  style={{ width: 100, alignSelf: "center" }}
+                  fixed
+                />
+              </View>
             )}
-          {/* Notified Address & Signature Section */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginBottom: 15,
-            }}
-          >
-            {/* Left column – Notified Address */}
-            {selectedBodyDetails && (
-              <View style={{ flex: 1, marginRight: 20 }}>
-                <Text style={{ fontSize: 10, marginBottom: 3 }}>
-                  {selectedBodyDetails.name}
+
+            {/* Product information */}
+            <View style={{ marginBottom: 12, textAlign: "center" }}>
+              <Text style={{ fontSize: 15, marginBottom: 10 }}>
+                {finalProductInfo.name}
+              </Text>
+              <Text style={{ fontSize: 11 }}>
+                {formData.docType === "packaging"
+                  ? t(language, "product.itemNumber.packaging", {
+                      productNumber: finalProductInfo.productNumber,
+                    })
+                  : t(language, "product.itemNumber", {
+                      productNumber: finalProductInfo.productNumber,
+                    })}
+              </Text>
+            </View>
+
+            {/* Legislation and Standards */}
+            <View style={{ marginBottom: 5 }}>
+              <Text
+                style={{
+                  fontSize: 11,
+                  marginBottom: 10,
+                  textAlign: "justify",
+                }}
+              >
+                {formData.docType === "packaging"
+                  ? t(language, "conformity.statement.packaging", {
+                      euLegislation: complianceInfo.euLegislation.join(", "),
+                    })
+                  : t(language, "conformity.statement", {
+                      euLegislation: complianceInfo.euLegislation.join(", "),
+                    })}
+              </Text>
+              {complianceInfo.harmonisedStandards && complianceInfo.harmonisedStandards.length > 0 && (
+                <>
+                  {complianceInfo.harmonisedStandards.map((std, idx) => (
+                    <Text
+                      key={idx}
+                      style={{
+                        fontSize: 10,
+                        marginLeft: 12,
+                        marginBottom: 7,
+                      }}
+                    >
+                      • {std}
+                    </Text>
+                  ))}
+                </>
+              )}
+            </View>
+
+            {/* Notified statement */}
+            {selectedBodyDetails &&
+              formData.docType !== "packaging" &&
+              finalProductInfo.categoryClass !== "Class I" && (
+                <View style={{ marginBottom: 10 }}>
+                  {finalProductInfo.categoryClass === "Class III" &&
+                  finalProductInfo.moduleType === "Module C2" ? (
+                    <Text
+                      style={{
+                        fontSize: 11,
+                        textAlign: "justify",
+                        marginBottom: 10,
+                      }}
+                    >
+                      {t(language, "notified.moduleC2", {
+                        bodyName: selectedBodyDetails.name,
+                        bodyNumber: selectedBodyDetails.number,
+                        certificateNo: finalProductInfo.certificateNo,
+                      })}
+                    </Text>
+                  ) : finalProductInfo.categoryClass === "Class III" &&
+                    finalProductInfo.moduleType === "Module D" ? (
+                    <Text
+                      style={{
+                        fontSize: 11,
+                        textAlign: "justify",
+                        marginBottom: 10,
+                      }}
+                    >
+                      {t(language, "notified.moduleD", {
+                        bodyName: selectedBodyDetails.name,
+                        bodyNumber: selectedBodyDetails.number,
+                        certificateNo: finalProductInfo.certificateNo,
+                      })}
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        fontSize: 11,
+                        textAlign: "justify",
+                        marginBottom: 10,
+                      }}
+                    >
+                      {t(language, "notified.other", {
+                        bodyName: selectedBodyDetails.name,
+                        bodyNumber: selectedBodyDetails.number,
+                        certificateNo: finalProductInfo.certificateNo,
+                        moduleType: finalProductInfo.moduleType,
+                      })}
+                    </Text>
+                  )}
+                </View>
+              )}
+
+            {selectedBodyDetails &&
+              formData.docType === "packaging" && (
+                <View style={{ marginBottom: 10 }}>
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      textAlign: "justify",
+                      marginBottom: 10,
+                    }}
+                  >
+                    {t(language, "notified.other.packaging", {
+                      bodyName: selectedBodyDetails.name,
+                      bodyNumber: selectedBodyDetails.number,
+                      certificateNo: finalProductInfo.certificateNo || "N/A",
+                    })}
+                  </Text>
+                </View>
+              )}
+
+            {/* Additional Information (Point 8 for PPWR) */}
+            {formData.docType === "packaging" && complianceInfo.additionalInfo && (
+              <View style={{ marginBottom: 15 }}>
+                <Text style={{ fontSize: 10, fontWeight: "bold", marginBottom: 3 }}>
+                  {language === "sv" ? "Ytterligare information:" : "Additional information:"}
                 </Text>
-                <Text style={{ fontSize: 10, marginBottom: 3 }}>
-                  Notified Body No. {selectedBodyDetails.number}
-                </Text>
-                <Text style={{ fontSize: 10, marginBottom: 3 }}>
-                  {selectedBodyDetails.address}
-                </Text>
-                <Text style={{ fontSize: 10, marginBottom: 3 }}>
-                  {selectedBodyDetails.zipCode}, {selectedBodyDetails.country}
+                <Text style={{ fontSize: 10, textAlign: "justify" }}>
+                  {complianceInfo.additionalInfo}
                 </Text>
               </View>
             )}
 
-            {/* Right column – Signature Section */}
+            {/* Notified Address & Signature Section */}
             <View
               style={{
-                flex: 1,
-                alignItems: "flex-end",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginBottom: 15,
               }}
             >
-              {signatureSrc && (
-                <>
+              {/* Left column – Notified Address */}
+              {selectedBodyDetails && (
+                <View style={{ flex: 1, marginRight: 20 }}>
+                  <Text style={{ fontSize: 10, marginBottom: 3 }}>
+                    {selectedBodyDetails.name}
+                  </Text>
+                  <Text style={{ fontSize: 10, marginBottom: 3 }}>
+                    Notified Body No. {selectedBodyDetails.number}
+                  </Text>
+                  <Text style={{ fontSize: 10, marginBottom: 3 }}>
+                    {selectedBodyDetails.address}
+                  </Text>
+                  <Text style={{ fontSize: 10, marginBottom: 3 }}>
+                    {selectedBodyDetails.zipCode}, {selectedBodyDetails.country}
+                  </Text>
+                </View>
+              )}
+
+              {/* Right column – Signature Section */}
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "flex-end",
+                }}
+              >
+                {showSignatureImage ? (
                   <Image
                     src={signatureSrc}
                     style={{ width: 120, marginBottom: 3 }}
                     fixed
                   />
-                  <Text style={{ fontSize: 10 }}>
-                    {t(language, "product.manager")}
-                  </Text>
-                  {signerName && (
-                    <Text style={{ fontSize: 10 }}>{signerName}</Text>
-                  )}
-                  <Text style={{ fontSize: 10 }}>{formattedDate}</Text>
-                </>
-              )}
+                ) : (
+                  <View style={{ width: 120, borderBottomWidth: 1, borderBottomColor: "black", marginBottom: 25, marginTop: 15 }} />
+                )}
+                <Text style={{ fontSize: 10 }}>
+                  {signerFunction}
+                </Text>
+                {signerName && (
+                  <Text style={{ fontSize: 10 }}>{signerName}</Text>
+                )}
+                <Text style={{ fontSize: 10 }}>{formattedDate}</Text>
+              </View>
             </View>
-          </View>
 
-          <View
-            style={{
-              position: "absolute",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              bottom: 10,
-              left: 40,
-              right: 40,
-              fontSize: 10,
-              color: "grey",
-            }}
-            fixed
-          >
-            <Text>www.bastadgruppen.com</Text>
-            <Text>Båstadgruppen AB</Text>
-            <Text>0046123413445</Text>
-          </View>
-        </Page>
-      ))}
+            <View
+              style={{
+                position: "absolute",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                bottom: 10,
+                left: 40,
+                right: 40,
+                fontSize: 10,
+                color: "grey",
+              }}
+              fixed
+            >
+              <Text>www.bastadgruppen.com</Text>
+              <Text>Båstadgruppen AB</Text>
+              <Text>0046123413445</Text>
+            </View>
+          </Page>
+        );
+      })}
     </Document>
   );
 };
