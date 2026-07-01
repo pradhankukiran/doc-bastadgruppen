@@ -132,7 +132,7 @@
         window.addEventListener("message", (event) => {
           // Add a simple origin check for security if needed in the future
           // if (event.origin !== 'http://your-app-origin.com') return;
-          if (typeof event.data === 'string' && event.data.startsWith('data:application/pdf')) {
+          if (typeof event.data === 'string' && (event.data.startsWith('blob:') || event.data.startsWith('data:application/pdf'))) {
             loadPdf(event.data);
           }
         });
@@ -179,23 +179,6 @@
           if (!pdfFile) return;
 
           let urlToOpen = pdfFile;
-
-          // Browsers block top-level navigation to data: URLs. Convert to a Blob URL instead.
-          if (urlToOpen.startsWith('data:application/pdf')) {
-            try {
-              const base64 = urlToOpen.split(',')[1];
-              const binary = atob(base64);
-              const len = binary.length;
-              const bytes = new Uint8Array(len);
-              for (let i = 0; i < len; i++) {
-                bytes[i] = binary.charCodeAt(i);
-              }
-              const blob = new Blob([bytes], { type: 'application/pdf' });
-              urlToOpen = URL.createObjectURL(blob);
-            } catch (err) {
-              console.error('Failed to convert data URL to Blob:', err);
-            }
-          }
 
           // Add #toolbar=0 to hide the toolbar in the new tab
           urlToOpen += '#toolbar=0';

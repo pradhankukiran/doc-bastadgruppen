@@ -465,20 +465,31 @@ function FormPage() {
               })}
             </div>
             <div className="mt-6 flex items-center justify-between">
-              <div className="relative">
-                <input
-                  type="checkbox"
-                  id="select-all"
-                  checked={allSelected}
-                  onChange={toggleSelectAll}
-                  className="peer absolute opacity-0 h-0 w-0"
-                />
-                <label
-                  htmlFor="select-all"
-                  className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
-                >
-                  Select All
-                </label>
+              <div className="flex gap-4">
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    id="select-all"
+                    checked={allSelected}
+                    onChange={toggleSelectAll}
+                    className="peer absolute opacity-0 h-0 w-0"
+                  />
+                  <label
+                    htmlFor="select-all"
+                    className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
+                  >
+                    Select All
+                  </label>
+                </div>
+                {selected.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setSelected([])}
+                    className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 hover:bg-brand-error hover:text-white hover:border-brand-error"
+                  >
+                    Clear All
+                  </button>
+                )}
               </div>
               <div className="text-sm font-medium text-brand-muted">
                 {selectionText}
@@ -552,7 +563,8 @@ function FormPage() {
                     onChange={(e) =>
                       setProductInfo({ ...productInfo, name: e.target.value })
                     }
-                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                    placeholder="Enter product name"
+                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-1 focus:ring-brand-primary focus:border-brand-primary form-input"
                   />
                 </div>
                 <div className="flex-1">
@@ -573,7 +585,7 @@ function FormPage() {
                       })
                     }
                     placeholder="Enter a product number"
-                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-1 focus:ring-brand-primary focus:border-brand-primary form-input"
                   />
                 </div>
               </div>
@@ -611,7 +623,7 @@ function FormPage() {
                       />
                       <label
                         htmlFor={`category-${category}`}
-                        className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
+                        className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
                       >
                         {category}
                       </label>
@@ -640,7 +652,8 @@ function FormPage() {
                         certificateNo: e.target.value,
                       })
                     }
-                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                    placeholder="e.g. 0598/PPE/21/2043"
+                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-1 focus:ring-brand-primary focus:border-brand-primary form-input"
                   />
                 </div>
               )}
@@ -670,7 +683,7 @@ function FormPage() {
                         />
                         <label
                           htmlFor={`module-${module}`}
-                          className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
+                          className="cursor-pointer flex items-center justify-center text-center px-6 py-3 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
                         >
                           {module}
                         </label>
@@ -700,7 +713,7 @@ function FormPage() {
                       setProductInfo({ ...productInfo, name: e.target.value })
                     }
                     placeholder="e.g. Cardboard shipping box / Outer carton"
-                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-1 focus:ring-brand-primary focus:border-brand-primary form-input"
                   />
                 </div>
                 <div className="flex-1">
@@ -721,7 +734,7 @@ function FormPage() {
                       })
                     }
                     placeholder="e.g. PPWR-12345-BOX"
-                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                    className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-1 focus:ring-brand-primary focus:border-brand-primary form-input"
                   />
                 </div>
               </div>
@@ -732,7 +745,7 @@ function FormPage() {
         return (
           <div className="space-y-6">
             <div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {brands.map((brand) => (
                   <div key={brand.name}>
                     <div className="relative">
@@ -745,16 +758,16 @@ function FormPage() {
                       />
                       <label
                         htmlFor={`brand-${brand.name}`}
-                        className="cursor-pointer flex flex-col items-center justify-center text-center w-full h-full p-4 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 ease-corporate hover:shadow-card hover:border-brand-secondary peer-checked:shadow-card peer-checked:border-brand-primary"
+                        className="cursor-pointer flex flex-col items-center justify-center text-center w-full h-full p-6 border-2 border-brand-background-dark rounded-md text-sm font-semibold text-brand-primary ease-corporate hover:shadow-card hover:border-brand-secondary peer-checked:shadow-card peer-checked:border-brand-primary bg-white"
                       >
                         <img
                           src={brand.logo}
                           alt={brand.name}
-                          className="h-16 w-16 object-contain"
+                          className="h-16 w-32 object-contain"
                         />
                       </label>
                     </div>
-                    <p className="mt-2 text-xs font-medium text-center text-brand-primary">
+                    <p className="mt-2 text-xs font-bold text-center text-brand-primary">
                       {brand.name}
                     </p>
                   </div>
@@ -763,7 +776,7 @@ function FormPage() {
             </div>
 
             {/* Custom Signer details input fields */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-white/5 border border-white/10 rounded-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white border-2 border-brand-background-dark rounded-md shadow-subtle">
               <div>
                 <label
                   className="block text-sm font-medium mb-1 text-brand-primary"
@@ -777,7 +790,7 @@ function FormPage() {
                   value={signerName}
                   onChange={(e) => setSignerName(e.target.value)}
                   placeholder="e.g. Nawar Toma"
-                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-1 focus:ring-brand-primary focus:border-brand-primary form-input"
                 />
               </div>
               <div>
@@ -793,7 +806,7 @@ function FormPage() {
                   value={signerFunction}
                   onChange={(e) => setSignerFunction(e.target.value)}
                   placeholder="e.g. Product Manager"
-                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-1 focus:ring-brand-primary focus:border-brand-primary form-input"
                 />
               </div>
             </div>
@@ -813,9 +826,9 @@ function FormPage() {
           (body) => body.id === selectedNotifiedBodies
         );
         return (
-          <div className="space-y-4">
+          <div className="space-y-6 max-w-4xl mx-auto">
             {docType === "packaging" && (
-              <p className="text-sm text-brand-muted mb-4">
+              <p className="text-sm text-brand-muted text-center mb-2">
                 Note: For packaging declarations, adding a notified body or institute is optional. You can select one below if applicable, or click Next to skip.
               </p>
             )}
@@ -831,7 +844,7 @@ function FormPage() {
                   />
                   <label
                     htmlFor={`body-${body.id}`}
-                    className="cursor-pointer flex items-center justify-center text-center w-full h-full p-4 border-2 border-brand-background-dark rounded-md text-sm font-medium text-brand-primary transition-all duration-250 ease-corporate hover:bg-brand-primary hover:text-white peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
+                    className="cursor-pointer flex items-center justify-center text-center w-full h-full p-6 border-2 border-brand-background-dark rounded-md text-sm font-semibold bg-white text-brand-primary ease-corporate hover:shadow-card hover:border-brand-secondary peer-checked:bg-brand-primary peer-checked:text-white peer-checked:border-brand-primary"
                   >
                     {body.name}
                   </label>
@@ -839,9 +852,12 @@ function FormPage() {
               ))}
             </div>
             {selectedBody && (
-              <div className="mt-4 bg-brand-subtle p-4 rounded-md border-2 border-brand-background-dark text-brand-secondary">
-                <p className="font-semibold">{selectedBody.name}</p>
-                <p>
+              <div className="mt-2 bg-white p-6 rounded-md border-2 border-brand-background-dark shadow-subtle text-brand-primary">
+                <span className="block text-[10px] font-bold text-brand-muted uppercase tracking-wider mb-2">
+                  Notified Body Address
+                </span>
+                <p className="font-bold text-sm mb-1">{selectedBody.name}</p>
+                <p className="text-sm text-brand-secondary">
                   {`${selectedBody.address}, ${selectedBody.zipCode}, ${selectedBody.country}`}
                 </p>
               </div>
@@ -851,7 +867,7 @@ function FormPage() {
       }
       case 5:
         return (
-          <div className="space-y-6">
+          <div className="space-y-6 max-w-4xl mx-auto">
             {/* Relevant EU Legislation */}
             <div>
               <label
@@ -877,7 +893,7 @@ function FormPage() {
                       ? "e.g. PPWR Regulation (EU) 2026/xxx"
                       : "Enter EU Legislation"
                   }
-                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-1 focus:ring-brand-primary focus:border-brand-primary form-input"
                 />
                 <button
                   type="button"
@@ -934,7 +950,7 @@ function FormPage() {
                     }
                   }}
                   placeholder="e.g. EN ISO 20345:2011"
-                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250"
+                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-1 focus:ring-brand-primary focus:border-brand-primary form-input"
                 />
                 <button
                   type="button"
@@ -990,7 +1006,7 @@ function FormPage() {
                   }
                   placeholder="Enter any additional details, place and date of issue details, packaging materials description, etc."
                   rows={4}
-                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-brand-accent focus:border-brand-accent form-input transition-all duration-250 resize-y"
+                  className="w-full border-2 border-brand-background-dark rounded-md p-2 focus:ring-1 focus:ring-brand-primary focus:border-brand-primary form-input resize-y"
                 />
               </div>
             )}
@@ -1019,10 +1035,10 @@ function FormPage() {
   };
 
   return (
-    <div className="animate-fade-in">
-      <main className="relative z-10 px-6 pt-20 pb-10 sm:pt-12 sm:pb-26">
+    <div className="animate-fade-in min-h-[80vh] flex flex-col justify-center">
+      <main className="relative z-10 px-6 py-12">
         <div
-          className={`mx-auto transition-all duration-500 ease-in-out max-w-3xl select-none`}
+          className={`mx-auto transition-all duration-500 ease-in-out max-w-5xl select-none`}
         >
           <h1 className="text-2xl font-bold mb-8 text-center text-brand-primary">
             {steps[step]}
@@ -1055,7 +1071,7 @@ function FormPage() {
         onSubmit={(e) => e.preventDefault()}
       >
         <div
-          className={`mx-auto transition-all duration-500 ease-in-out max-w-3xl px-6`}
+          className={`mx-auto transition-all duration-500 ease-in-out max-w-5xl px-6`}
         >
           {/* Navigation and Steps */}
           <div className="flex justify-between items-center py-4">

@@ -28,6 +28,12 @@ Font.register({
   ],
 });
 
+// Register SignatureFont (Caveat) for handwritten signatures
+Font.register({
+  family: "SignatureFont",
+  src: "https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjfJ9SII.ttf",
+});
+
 type Props = {
   formData: DeclarationFormData;
   languages: string[];
@@ -389,6 +395,17 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, languages }) => {
                     style={{ width: 120, marginBottom: 3 }}
                     fixed
                   />
+                ) : formData.selectedBrands === "Båstadgruppen" && signerName ? (
+                  <View style={{ height: 26, justifyContent: "center", marginBottom: 5 }}>
+                    <Text
+                      style={{
+                        fontFamily: "SignatureFont",
+                        fontSize: 16,
+                      }}
+                    >
+                      {signerName}
+                    </Text>
+                  </View>
                 ) : (
                   <View style={{ width: 120, borderBottomWidth: 1, borderBottomColor: "black", marginBottom: 25, marginTop: 15 }} />
                 )}

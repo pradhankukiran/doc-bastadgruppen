@@ -88,9 +88,8 @@ function PreviewPage() {
       );
       setLanguageStates(initialStates);
 
-      // Generate PDFs sequentially
-      for (let i = 0; i < formData.selectedLanguages.length; i++) {
-        const langName = formData.selectedLanguages[i];
+      // Generate PDFs in parallel
+      const promises = formData.selectedLanguages.map(async (langName, index) => {
         const langCode = LANG_NAME_TO_CODE[langName] || "en";
 
         // Update state to generating
@@ -107,14 +106,7 @@ function PreviewPage() {
           const blobUrl = URL.createObjectURL(blob);
           revoked.push(blobUrl);
 
-          const dataUrl = await new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
-          });
-
-          const pdfData: PdfData = { lang: langCode, dataUrl, blobUrl };
+          const pdfData: PdfData = { lang: langCode, dataUrl: blobUrl, blobUrl };
 
           // Update state to completed
           setLanguageStates((prev) =>
@@ -126,14 +118,15 @@ function PreviewPage() {
           );
 
           // Set first completed PDF as selected
-          if (i === 0) {
-            setSelectedPdfDataUrl(dataUrl);
+          if (index === 0) {
+            setSelectedPdfDataUrl(blobUrl);
           }
         } catch (error) {
           console.error(`Error generating PDF for ${langName}:`, error);
-          // Keep as generating state or could add error state
         }
-      }
+      });
+
+      await Promise.all(promises);
     }
     generate();
 
