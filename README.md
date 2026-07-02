@@ -1,6 +1,6 @@
-# Bastadgruppen Documentation App
+# Båstadgruppen EU Declaration of Conformity Generator
 
-A professional web application for managing and viewing documentation, built with React, TypeScript, and Tailwind CSS.
+A specialized React and TypeScript application built with Vite and Tailwind CSS to dynamically generate regulation-compliant, localized EU Declarations of Conformity (DoCs) for Båstadgruppen products and packaging.
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -11,27 +11,35 @@ A professional web application for managing and viewing documentation, built wit
 
 ---
 
-## Features
+## Project Overview
 
-- Dynamic documentation rendering and organization.
-- Export options including PDF generation via `@react-pdf/renderer` and `jspdf`.
-- Smooth animations and transitions powered by `framer-motion`.
-- Fully responsive design optimized for mobile, tablet, and desktop screens.
+This application serves as an internal utility to automate the creation of official EU Declarations of Conformity (DoC). Compliance documents are generated as print-ready A4 PDFs containing standard legal, manufacturer, and notified body details tailored to EU PPE and recycling regulations.
+
+---
+
+## Core Features
+
+- **Multi-Language Generation**: Generates compliant PDFs across 22 European languages concurrently (including Swedish, Norwegian, Polish, French, German, Italian, Spanish, Slovak, Greek, and Croatian).
+- **Intelligent Brand and Signer Mapping**: Automatically applies the corresponding brand logos and maps authorized signers (along with their scanned signatures and job functions) based on the selected brand (such as Guardio, Monitor, Matterhorn, Top Swede, South West, or Båstadgruppen).
+- **Notified Body Profiles**: Includes pre-configured profiles for major European certification institutes and notified bodies (including SGS Fimko, INSPEC International, RICOTEST, TÜV Rheinland, CCQS Certification Services, and DIN CERTCO).
+- **Step-by-Step Compliance Wizard**: Uses an intuitive multi-step form built with Framer Motion, featuring data persistence using `localStorage` to save form progress across browser sessions.
+- **Interactive Multi-PDF Viewer**: Features a document preview screen allowing users to toggle between localized PDF drafts inside an iframe container before downloading.
+- **Custom Typography**: Registers specific fonts (Lato, Noto Sans for extended Latin character sets, and Caveat for handwritten signatures) to ensure high-fidelity document formatting.
 
 ---
 
 ## Prerequisites
 
-Before setting up the project locally, ensure you have the following installed:
+Ensure you have the following installed:
 
 - Node.js (version 18 or higher)
-- npm (comes packaged with Node.js)
+- npm (packaged with Node.js)
 
 ---
 
 ## Local Development
 
-Follow these steps to run the application in a local development environment:
+Follow these steps to set up the development environment:
 
 ```bash
 # Install dependencies
@@ -41,19 +49,19 @@ npm install
 npm run dev
 ```
 
-Once started, the development server will be accessible at `http://localhost:5173`.
+The application will run locally at `http://localhost:5173`.
 
 ---
 
 ## Build and Production
 
-To package the application for production deployment, run:
+To compile the application for production deployment, run:
 
 ```bash
 npm run build
 ```
 
-This command generates a `dist/` directory containing the optimized static assets ready for hosting.
+This compiles optimized, static assets into the `dist/` directory, ready to be hosted on any web server.
 
 ---
 
@@ -61,27 +69,27 @@ This command generates a `dist/` directory containing the optimized static asset
 
 ### Option 1: Vercel (Recommended)
 
-This project is configured for deployment on Vercel.
+This repository is pre-configured for Vercel deployment.
 
-1. Connect your GitHub repository to Vercel.
-2. Vercel automatically detects the Vite build configuration.
+1. Import this repository into your Vercel account.
+2. Vercel automatically detects Vite settings.
 3. Click **Deploy**.
 
 #### Custom Domain Configuration
-1. Navigate to the project settings in the Vercel dashboard: **Settings** > **Domains**.
-2. Add your custom domain (e.g., `app.bastadgruppen.se`).
-3. Update the DNS records at your domain registrar as instructed by Vercel.
+- Navigate to the project settings in the Vercel dashboard: **Settings** > **Domains**.
+- Add your custom domain (e.g., `app.bastadgruppen.se`).
+- Update the DNS records at your domain registrar as instructed by Vercel.
 
 ---
 
 ### Option 2: Netlify
 
-1. Log in to Netlify and select **Add new site** > **Import an existing project**.
+1. In the Netlify dashboard, select **Add new site** > **Import an existing project**.
 2. Connect your GitHub repository.
-3. Apply the following Build settings:
+3. Configure the following Build settings:
    - **Build command:** `npm run build`
    - **Publish directory:** `dist`
-4. Deploy the site.
+4. Click **Deploy**.
 
 ---
 
@@ -111,7 +119,7 @@ To deploy on standard hosting servers (e.g., cPanel, Plesk):
 
 ### Option 4: GitHub Pages
 
-1. Install the deployment utility:
+1. Install the deployment package:
    ```bash
    npm install -D gh-pages
    ```
@@ -119,7 +127,7 @@ To deploy on standard hosting servers (e.g., cPanel, Plesk):
    ```json
    "deploy": "npm run build && gh-pages -d dist"
    ```
-3. Run the script:
+3. Deploy the application:
    ```bash
    npm run deploy
    ```
