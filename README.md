@@ -1,81 +1,101 @@
 # Bastadgruppen Documentation App
 
-A React + TypeScript web application built with Vite.
+A professional web application for managing and viewing documentation, built with React, TypeScript, and Tailwind CSS.
+
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)](https://reactrouter.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+
+---
+
+## Features
+
+- Dynamic documentation rendering and organization.
+- Export options including PDF generation via `@react-pdf/renderer` and `jspdf`.
+- Smooth animations and transitions powered by `framer-motion`.
+- Fully responsive design optimized for mobile, tablet, and desktop screens.
+
+---
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) version 18 or higher
-- npm (comes with Node.js)
+Before setting up the project locally, ensure you have the following installed:
+
+- Node.js (version 18 or higher)
+- npm (comes packaged with Node.js)
+
+---
 
 ## Local Development
+
+Follow these steps to run the application in a local development environment:
 
 ```bash
 # Install dependencies
 npm install
 
-# Start development server
+# Start the local development server
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`
+Once started, the development server will be accessible at `http://localhost:5173`.
 
-## Building for Production
+---
+
+## Build and Production
+
+To package the application for production deployment, run:
 
 ```bash
 npm run build
 ```
 
-This creates a `dist/` folder containing all the static files ready for deployment.
+This command generates a `dist/` directory containing the optimized static assets ready for hosting.
 
 ---
 
-## Deployment Options
+## Deployment Configuration
 
-### Option 1: Vercel (Recommended - Easiest)
+### Option 1: Vercel (Recommended)
 
-1. Go to [vercel.com](https://vercel.com) and sign up/login with GitHub
-2. Click **"Add New Project"**
-3. Import your GitHub repository
-4. Vercel auto-detects Vite settings - just click **"Deploy"**
-5. Done! You'll get a URL like `your-project.vercel.app`
+This project is configured for deployment on Vercel.
 
-**To use your own domain:**
-1. In Vercel dashboard, go to your project → **Settings** → **Domains**
-2. Add your domain (e.g., `app.bastadgruppen.se`)
-3. Vercel will show DNS records to add at your domain registrar
-4. Add the DNS records and wait for verification (usually 5-30 minutes)
+1. Connect your GitHub repository to Vercel.
+2. Vercel automatically detects the Vite build configuration.
+3. Click **Deploy**.
+
+#### Custom Domain Configuration
+1. Navigate to the project settings in the Vercel dashboard: **Settings** > **Domains**.
+2. Add your custom domain (e.g., `app.bastadgruppen.se`).
+3. Update the DNS records at your domain registrar as instructed by Vercel.
 
 ---
 
 ### Option 2: Netlify
 
-1. Go to [netlify.com](https://netlify.com) and sign up/login
-2. Click **"Add new site"** → **"Import an existing project"**
-3. Connect your GitHub repository
-4. Set build settings:
+1. Log in to Netlify and select **Add new site** > **Import an existing project**.
+2. Connect your GitHub repository.
+3. Apply the following Build settings:
    - **Build command:** `npm run build`
    - **Publish directory:** `dist`
-5. Click **"Deploy"**
-
-**To use your own domain:**
-1. Go to **Site settings** → **Domain management** → **Add custom domain**
-2. Follow the DNS configuration instructions
+4. Deploy the site.
 
 ---
 
-### Option 3: Manual Upload (Any Static Hosting)
+### Option 3: Manual Upload (Traditional Hosting)
 
-If you have traditional web hosting (cPanel, Plesk, etc.):
+To deploy on standard hosting servers (e.g., cPanel, Plesk):
 
-1. Run the build locally:
+1. Generate the production build locally:
    ```bash
    npm install
    npm run build
    ```
-
-2. Upload the entire contents of the `dist/` folder to your web server's public folder (usually `public_html` or `www`)
-
-3. **Important for SPA routing:** Create a `.htaccess` file in the same folder with:
+2. Upload the contents of the `dist/` directory to the server's public root (typically `public_html` or `www`).
+3. For Apache servers, configure single-page application (SPA) routing by adding a `.htaccess` file in the root directory with the following configuration:
    ```apache
    <IfModule mod_rewrite.c>
      RewriteEngine On
@@ -91,45 +111,47 @@ If you have traditional web hosting (cPanel, Plesk, etc.):
 
 ### Option 4: GitHub Pages
 
-1. Install gh-pages: `npm install -D gh-pages`
-2. Add to `package.json` scripts:
+1. Install the deployment utility:
+   ```bash
+   npm install -D gh-pages
+   ```
+2. Add the deployment script to `package.json`:
    ```json
    "deploy": "npm run build && gh-pages -d dist"
    ```
-3. Run: `npm run deploy`
+3. Run the script:
+   ```bash
+   npm run deploy
+   ```
 
 ---
 
 ## Environment Variables
 
-If you need to configure environment variables, create a `.env` file:
+For environment-specific configurations, create a `.env` file in the root directory:
 
-```
+```env
 VITE_API_URL=https://your-api.com
 ```
 
-Access in code with `import.meta.env.VITE_API_URL`
+Refer to environment variables in your code using `import.meta.env.VITE_API_URL`.
 
 ---
 
 ## Troubleshooting
 
-**Blank page after deployment?**
-- Make sure all files from `dist/` are uploaded
-- Check that the `.htaccess` rewrite rules are in place (for Apache servers)
+### Blank Page After Deployment
+- Confirm all files from the `dist/` directory were successfully uploaded.
+- Ensure rewrite rules are active (especially on Apache servers).
 
-**Routes not working (404 on refresh)?**
-- Your server needs to redirect all requests to `index.html`
-- On Vercel/Netlify this is automatic
-- On Apache, use the `.htaccess` file above
-- On Nginx, add: `try_files $uri $uri/ /index.html;`
+### Routing Errors (404 on Page Refresh)
+- Ensure your hosting server redirects all traffic to `index.html`.
+- On Nginx, add the following directive:
+  ```nginx
+  try_files $uri $uri/ /index.html;
+  ```
+- On Vercel and Netlify, SPA routing is handled automatically.
 
-**Build failing?**
-- Make sure you're using Node.js 18+
-- Delete `node_modules` and `package-lock.json`, then run `npm install` again
-
----
-
-## Support
-
-For deployment help, contact the developer.
+### Build Failures
+- Ensure your local Node.js version is 18+.
+- Reset dependencies by deleting `node_modules` and `package-lock.json`, and running `npm install`.
