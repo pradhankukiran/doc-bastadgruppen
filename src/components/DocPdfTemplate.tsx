@@ -348,7 +348,7 @@ const DocPdfTemplate: React.FC<Props> = ({ formData, languages }) => {
             {formData.docType === "packaging" && complianceInfo.additionalInfo && (
               <View style={{ marginBottom: 15 }}>
                 <Text style={{ fontSize: 10, fontWeight: "bold", marginBottom: 3 }}>
-                  {language === "sv" ? "Ytterligare information:" : "Additional information:"}
+                  {t(language, "additional.info")}
                 </Text>
                 <Text style={{ fontSize: 10, textAlign: "justify" }}>
                   {complianceInfo.additionalInfo}
