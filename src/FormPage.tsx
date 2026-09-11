@@ -87,6 +87,14 @@ const notifiedBodies = [
     zipCode: "12103 BERLIN",
     country: "Germany",
   },
+  {
+    id: "cimac",
+    name: "CIMAC (A.N.C.I. Servizi s.r.l.)",
+    number: "0465",
+    address: "Via Aguzzafame 60/b",
+    zipCode: "27029 Vigevano (PV)",
+    country: "Italy",
+  },
 ];
 
 const categoryClasses = ["Class I", "Class II", "Class III"];
